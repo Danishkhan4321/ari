@@ -1,7 +1,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { app, BrowserWindow, clipboard, desktopCapturer, ipcMain, Menu, nativeImage, screen, shell, session, systemPreferences, Tray } = require('electron');
-const { createRuntimeConfig } = require('./config');
+const { createRuntimeConfig, loadPackagedConfig } = require('./config');
 const { ServiceController } = require('./service-controller');
 const { classifyUrl } = require('./navigation');
 const { CodexRuntime } = require('./codex-runtime');
@@ -15,8 +15,13 @@ const { loadOrCreateInternalToken, removeInternalToken } = require('./internal-t
 const { exchangeDesktopTicket, googleAuthStartUrl, ticketFromCommandLine, ticketFromDeepLink } = require('./desktop-auth');
 
 const repoRoot = process.env.ARI_REPO_ROOT || path.resolve(__dirname, '..', '..');
+const packagedConfigPath = app.isPackaged ? path.join(process.resourcesPath, 'app-config.json') : undefined;
+const packagedConfig = app.isPackaged ? loadPackagedConfig(packagedConfigPath) : {};
+if (app.isPackaged && !process.env.ARI_DESKTOP_DASHBOARD_URL && !packagedConfig.dashboardUrl) {
+  packagedConfig.dashboardUrl = 'https://app.98-89-55-116.sslip.io';
+}
 const runtime = createRuntimeConfig(repoRoot, {
-  packagedConfigPath: app.isPackaged ? path.join(process.resourcesPath, 'app-config.json') : undefined,
+  packagedConfig,
 });
 let services = null;
 let backendService = null;
@@ -127,6 +132,9 @@ async function launch() {
   launchInProgress = true;
   await mainWindow.loadFile(path.join(__dirname, 'startup.html'));
   try {
+    if (app.isPackaged && runtime.hosted) {
+      await session.defaultSession.clearCache();
+    }
     if (!runtime.hosted) await startLocalServices();
     await mainWindow.loadURL(runtime.dashboardEntryUrl);
   } catch (error) {

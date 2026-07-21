@@ -1,6 +1,6 @@
 {
   "name": "ari-desktop",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "private": true,
   "author": "Ari",
   "description": "Local Electron desktop shell for Ari",
@@ -14,7 +14,7 @@
     "build:win": "npm run prepare:hosted-build && electron-builder --win nsis --x64",
     "release:win": "npm run prepare:hosted-build && electron-builder --win nsis --x64 --publish always",
     "build:mac-helper": "node scripts/build-macos-capture.js",
-    "build:mac": "npm run build:mac-helper && electron-builder --mac dmg zip --x64 --arm64"
+    "build:mac": "npm run prepare:hosted-build && npm run build:mac-helper && electron-builder --mac dmg zip --x64 --arm64"
   },
   "dependencies": {
     "active-win": "^9.0.0",

@@ -5,6 +5,9 @@ import { GoogleSignInButton } from "./google-sign-in-button";
 
 type SearchParams = { error?: string };
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 const benefits = [
   "One Composio-managed sign-in for Ari",
   "Google permissions handled by Composio",
