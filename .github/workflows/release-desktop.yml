@@ -24,8 +24,8 @@ jobs:
             script: build:win
             artifact: Ari Windows Installer
             files: |
-              desktop/dist/*.exe
-              desktop/dist/*.blockmap
+              desktop/dist/Ari-Setup-*.exe
+              desktop/dist/Ari-Setup-*.exe.blockmap
               desktop/dist/latest.yml
           - platform: macos
             runner: macos-latest
@@ -57,6 +57,21 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CSC_IDENTITY_AUTO_DISCOVERY: false
+
+      - name: Normalize Windows installer filenames
+        if: matrix.platform == 'windows'
+        shell: pwsh
+        run: |
+          $dist = "desktop/dist"
+          $installer = Get-ChildItem -Path $dist -Filter "Ari Setup *.exe" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+          if (-not $installer) { throw "Windows installer not found" }
+          $normalizedName = $installer.Name -replace ' ', '-'
+          $normalizedInstaller = Join-Path $dist $normalizedName
+          Copy-Item -LiteralPath $installer.FullName -Destination $normalizedInstaller
+          $blockmap = "$($installer.FullName).blockmap"
+          if (Test-Path -LiteralPath $blockmap) {
+            Copy-Item -LiteralPath $blockmap -Destination "$normalizedInstaller.blockmap"
+          }
 
       - name: Upload installer artifact
         uses: actions/upload-artifact@v4
