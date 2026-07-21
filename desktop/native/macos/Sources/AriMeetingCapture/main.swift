@@ -211,7 +211,7 @@ AVCaptureDevice.requestAccess(for: .audio) { allowed in
 microphonePermission.wait()
 guard microphoneAllowed else { fail("Microphone permission is required to record meetings.") }
 
-let controller = CaptureController(outputURL: URL(fileURLWithPath: outputPath))
+private let controller = CaptureController(outputURL: URL(fileURLWithPath: outputPath))
 Task {
     do { try await controller.start() }
     catch { fail(error.localizedDescription) }
