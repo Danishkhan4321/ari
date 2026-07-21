@@ -1803,8 +1803,8 @@ Try telling me what you want to get done, or say *help* to see examples.`;
       const onboardingHandled = await this.handleOnboardingStep(message);
       if (onboardingHandled) return;
 
-      // === Dashboard magic-link intercept ===
-      // "open dashboard" must send a web login link, not the in-chat stats view.
+      // === Dashboard sign-in intercept ===
+      // Legacy dashboard phrases now point to the shared Google + Composio sign-in.
       if (isDashboardLoginQuery(message.text)) {
         const linkReply = await this.handleAccountLink(message);
         await messagingService.send(message.from, linkReply);
@@ -13684,16 +13684,14 @@ Just text me whatever you need.`;
   // GChat adapters. Until May 19 2026 the controller still advertised
   // those platforms here; the codes generated were never claimable because
   // the corresponding bots didn't exist. Result: confused users + dead
-  // help text. Now the intent is dashboard-only: a "link" request on
-  // WhatsApp issues a one-shot magic-link to the web dashboard.
+  // help text. Dashboard access now uses the shared Google + Composio flow.
   async handleAccountLink(message, params = {}) {
     const lower = message.text.trim().toLowerCase();
     const action = String(params.action || '').toLowerCase();
 
-    // "open dashboard" / "dashboard link" / "web login" / "link" — magic-link
-    // to the web dashboard. Reuses the link_codes table with platform='web'.
-    // Gated on DASHBOARD_BASE_URL so the intent is dormant when the
-    // dashboard isn't deployed.
+    // Keep older dashboard phrases useful without issuing WhatsApp login codes.
+    // Gated on DASHBOARD_BASE_URL so the intent is dormant when the dashboard
+    // isn't deployed.
     const wantsDashboard = action === 'dashboard_link' ||
       /^(open|launch|show|send|give|gimme)\s+(me\s+)?(the\s+)?(dashboard|web|website)(\s+(login|link))?$/i.test(lower)
       || /^(dashboard|web)\s+(login|link)$/i.test(lower)
@@ -13706,11 +13704,9 @@ Just text me whatever you need.`;
       if (!process.env.DASHBOARD_BASE_URL) {
         return 'The web dashboard isn\'t live yet. Everything works on WhatsApp — say "help" to see what I can do.';
       }
-      const result = await accountLinkService.generateLinkCode(message.from, 'web');
-      if (!result.success) return result.error;
       const base = process.env.DASHBOARD_BASE_URL.replace(/\/+$/, '');
-      const url = `${base}/auth?code=${result.code}`;
-      return `*Dashboard login*\n\n${url}\n\nTap to open the web dashboard. Link expires in ${result.expiresIn} and only works once. If you didn't ask for this, ignore the message.`;
+      const url = `${base}/login`;
+      return `*Open Ari*\n\n${url}\n\nSign in with Google. Composio will securely connect the Google apps you authorize.`;
     }
 
     // "my accounts" / "linked accounts" — show connected services (Google,
@@ -13726,10 +13722,10 @@ Just text me whatever you need.`;
     // before the WhatsApp-only purge.
     if (/^link\s+(discord|telegram|slack|gchat|google\s*chat)$/i.test(lower)
         || /^unlink\s+(discord|telegram|slack|gchat|google\s*chat)$/i.test(lower)) {
-      return 'Cross-platform linking was removed when Ari became WhatsApp-only. The web dashboard at the same account is available — say "open dashboard" for a one-time login link.';
+      return 'Cross-platform messaging links are not supported. Open the Ari dashboard and sign in securely with Google and Composio.';
     }
 
-    return 'Linking commands:\n\n- _"open dashboard"_ — get a web-dashboard login link\n- _"my accounts"_ — view connected Google/Microsoft/Apple accounts\n\nCross-platform messaging links (Discord/Telegram/Slack) are no longer supported.';
+    return 'Account connections are managed securely inside Ari. Sign in with Google, then use Composio to authorize the apps you want Ari to access.';
   }
 
   // ========== SALES ASSISTANT ==========

@@ -12,13 +12,17 @@ export async function POST(request: Request) {
 
   const body = await request.json().catch(() => ({}));
   const product = typeof body.product === "string" ? body.product : "all";
+  const destination = typeof body.destination === "string" ? body.destination : undefined;
   if (!PRODUCTS.has(product)) {
     return NextResponse.json({ ok: false, error: "invalid Google product" }, { status: 400 });
+  }
+  if (destination !== undefined && destination !== "dashboard" && destination !== "desktop") {
+    return NextResponse.json({ ok: false, error: "invalid connection destination" }, { status: 400 });
   }
 
   const result = await callBotInternal<{ url: string }>(
     "/webhook/internal/dashboard-google-connect",
-    { user_phone: userPhone, product },
+    { user_phone: userPhone, product, destination },
     30_000,
   );
   if (!result.ok) {

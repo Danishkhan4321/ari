@@ -206,7 +206,7 @@ class GoogleAuthService {
     }
   }
 
-  async generateProductAuthUrl(userPhone, product, remaining = []) {
+  async generateProductAuthUrl(userPhone, product, remaining = [], options = {}) {
     if (!COMPOSIO_GOOGLE_PRODUCTS.includes(product)) {
       throw new Error(`Unsupported Google product: ${product}`);
     }
@@ -219,6 +219,9 @@ class GoogleAuthService {
     callback.searchParams.set('state', this.generateStateParam(userPhone));
     callback.searchParams.set('product', product);
     if (remaining.length) callback.searchParams.set('remaining', remaining.join(','));
+    if (['dashboard', 'desktop'].includes(options.destination)) {
+      callback.searchParams.set('destination', options.destination);
+    }
 
     const request = await composioConnector.createConnectionLink({
       userPhone,
@@ -227,15 +230,15 @@ class GoogleAuthService {
     });
     if (request.alreadyConnected && remaining.length) {
       const [next, ...rest] = remaining;
-      return this.generateProductAuthUrl(userPhone, next, rest);
+      return this.generateProductAuthUrl(userPhone, next, rest, options);
     }
     return request.redirectUrl || callback.toString();
   }
 
-  async generateAuthUrl(userPhone, extraScopes = []) {
+  async generateAuthUrl(userPhone, extraScopes = [], options = {}) {
     if (this.useComposio()) {
       const [first, ...remaining] = COMPOSIO_GOOGLE_PRODUCTS;
-      return this.generateProductAuthUrl(userPhone, first, remaining);
+      return this.generateProductAuthUrl(userPhone, first, remaining, options);
     }
 
     const oauth2Client = this.createOAuth2Client();

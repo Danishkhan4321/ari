@@ -76,6 +76,22 @@ test('Connect all begins with Gmail and carries the remaining products through t
   });
 });
 
+test('workspace sign-in preserves its verified destination through Composio', async () => {
+  await withPatchedComposio({
+    isConfigured: () => true,
+    createConnectionLink: async (input) => {
+      const callback = new URL(input.callbackUrl);
+      assert.equal(callback.searchParams.get('destination'), 'desktop');
+      return { redirectUrl: 'https://connect.composio.dev/desktop' };
+    },
+  }, async () => {
+    assert.equal(
+      await googleAuth.generateAuthUrl('+919999911111', [], { destination: 'desktop' }),
+      'https://connect.composio.dev/desktop',
+    );
+  });
+});
+
 test('individual Google products use their own managed auth config', async () => {
   await withPatchedComposio({
     isConfigured: () => true,

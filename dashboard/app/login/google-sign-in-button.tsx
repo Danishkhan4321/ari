@@ -23,19 +23,22 @@ export function GoogleSignInButton() {
       <a
         href="/api/auth/google/start"
         onClick={start}
-        className="flex items-center justify-center gap-3 w-full bg-white text-black border-2 border-black rounded-[4px] px-5 py-3 font-semibold shadow-brutal hover:shadow-brutal-hover hover:translate-x-[2px] hover:translate-y-[2px] active:shadow-none active:translate-x-1 active:translate-y-1 transition-all duration-150 mb-2"
+        aria-busy={message ? true : undefined}
+        className="flex h-12 w-full items-center justify-center gap-3 rounded-xl border border-[#cfcbc5] bg-white px-5 text-[13px] font-semibold text-[#24211f] shadow-[0_2px_7px_rgba(38,8,5,0.06)] transition hover:border-[#aaa49d] hover:bg-[#fdfcf9] hover:shadow-[0_5px_14px_rgba(38,8,5,0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f7dd2a] active:translate-y-px"
       >
         <GoogleG />
         Continue with Google
       </a>
-      {message ? <p role="status" className="mb-4 text-center text-sm text-txt-muted">{message}</p> : <div className="mb-2" />}
+      <p role="status" className="mt-3 min-h-5 text-center text-[11px] text-[#77716c]">
+        {message || "Google identity · App access managed by Composio"}
+      </p>
     </>
   );
 }
 
 function GoogleG() {
   return (
-    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
       <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
       <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z" fill="#34A853" />
       <path d="M5.84 14.1c-.22-.66-.35-1.36-.35-2.1s.13-1.44.35-2.1V7.06H2.18a11 11 0 0 0 0 9.88l3.66-2.84z" fill="#FBBC05" />

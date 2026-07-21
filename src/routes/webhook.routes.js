@@ -320,16 +320,23 @@ router.post('/internal/dashboard-google-status', verifyInternalSecret, async (re
 router.post('/internal/dashboard-google-connect', verifyInternalSecret, async (req, res) => {
   const userPhone = req.body?.user_phone;
   const product = req.body?.product || 'all';
+  const destination = req.body?.destination;
   if (!userPhone || typeof userPhone !== 'string') {
     return res.status(400).json({ error: 'user_phone required' });
   }
   if (!['all', 'gmail', 'calendar', 'drive', 'docs', 'sheets', 'slides', 'tasks'].includes(product)) {
     return res.status(400).json({ error: 'invalid Google product' });
   }
+  if (destination !== undefined && !['dashboard', 'desktop'].includes(destination)) {
+    return res.status(400).json({ error: 'invalid connection destination' });
+  }
+  if (destination && !googleAuthService.useComposio()) {
+    return res.status(503).json({ error: 'Composio connection is not configured.' });
+  }
   try {
     const url = product === 'all'
-      ? await googleAuthService.generateAuthUrl(userPhone)
-      : await googleAuthService.generateProductAuthUrl(userPhone, product);
+      ? await googleAuthService.generateAuthUrl(userPhone, [], { destination })
+      : await googleAuthService.generateProductAuthUrl(userPhone, product, [], { destination });
     return res.json({ url });
   } catch (error) {
     logger.error('Dashboard Google connect failed:', error.message);

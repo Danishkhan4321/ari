@@ -12,7 +12,6 @@ type Props = {
 const TRY_COMMANDS = [
   { label: "Say hello", text: "hi" },
   { label: "Set a reminder", text: "remind me tomorrow at 9am to test Ari" },
-  { label: "Open web dashboard", text: "open dashboard" },
 ];
 
 export function GetStartedContent({
@@ -89,10 +88,9 @@ export function GetStartedContent({
       </section>
 
       <section className="space-y-3">
-        <h2 className="text-sm font-bold uppercase tracking-wider">Step 3 — Open the web dashboard (optional)</h2>
+        <h2 className="text-sm font-bold uppercase tracking-wider">Step 3 — Sign in to your workspace</h2>
         <p className="text-sm text-txt-muted">
-          Send <span className="font-mono font-semibold">open dashboard</span> on WhatsApp. Ari replies with a one-time login link.
-          Or go to the dashboard login page after you have messaged Ari at least once.
+          Open the dashboard and continue with Google. Ari verifies your account, then Composio securely connects the Google apps you authorize.
         </p>
         <a href={dashboardUrl} className="dash-btn dash-btn-primary inline-block text-center">
           Go to dashboard login →

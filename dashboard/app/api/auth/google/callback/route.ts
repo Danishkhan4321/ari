@@ -20,7 +20,6 @@ import { query } from "@/lib/db";
 import { createSession, setSessionCookie } from "@/lib/session";
 import { readOnboardingCookie, setGoogleEmail, getPending } from "@/lib/onboarding";
 import { resolveGoogleIdentity } from "@/lib/google-identity";
-import { createDesktopAuthTicket } from "@/lib/desktop-auth";
 
 export const dynamic = "force-dynamic";
 
@@ -96,13 +95,9 @@ export async function GET(req: Request) {
     } catch { /* ignore */ }
   }
 
-  if (flow === "desktop") {
-    const desktopTicket = await createDesktopAuthTicket(userPhone);
-    return NextResponse.redirect(`${BASE}/auth/desktop#ticket=${encodeURIComponent(desktopTicket)}`, 303);
-  }
-
   const token = await createSession(userPhone);
   setSessionCookie(token);
 
-  return NextResponse.redirect(`${BASE}/`, 303);
+  const connectPath = flow === "desktop" ? "/auth/connect?client=desktop" : "/auth/connect";
+  return NextResponse.redirect(`${BASE}${connectPath}`, 303);
 }

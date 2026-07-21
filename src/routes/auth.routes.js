@@ -14,6 +14,9 @@ router.get('/composio-callback', oauthCallbackLimiter, async (req, res) => {
   const remaining = typeof req.query.remaining === 'string'
     ? req.query.remaining.split(',').filter(Boolean)
     : [];
+  const destination = ['dashboard', 'desktop'].includes(req.query.destination)
+    ? req.query.destination
+    : null;
   const userPhone = googleAuthService.validateStateParam(state);
   if (!userPhone) {
     return res.status(400).send('<h2>Invalid or expired connection request</h2>');
@@ -29,11 +32,19 @@ router.get('/composio-callback', oauthCallbackLimiter, async (req, res) => {
 
     if (remaining.length) {
       const [next, ...rest] = remaining;
-      const nextUrl = await googleAuthService.generateProductAuthUrl(userPhone, next, rest);
+      const nextUrl = await googleAuthService.generateProductAuthUrl(userPhone, next, rest, { destination });
       return res.redirect(302, nextUrl);
     }
 
     const googleEmail = await googleAuthService.getGoogleEmail(userPhone);
+    if (destination) {
+      const dashboardBase = String(process.env.DASHBOARD_BASE_URL || '').replace(/\/+$/, '');
+      if (!dashboardBase) return res.status(503).send('<h2>Ari dashboard is not configured</h2>');
+      const target = destination === 'desktop'
+        ? `${dashboardBase}/api/auth/desktop/finish`
+        : `${dashboardBase}/`;
+      return res.redirect(303, target);
+    }
     try {
       await messagingService.send(userPhone, `Google connected!${googleEmail ? `\n\nAccount: ${googleEmail}` : ''}`);
     } catch (messageError) {
