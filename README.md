@@ -15,6 +15,12 @@ actions—not a chat response that merely claims the work is done.
 ![Data](https://img.shields.io/badge/data-PostgreSQL-336791)
 ![Status](https://img.shields.io/badge/status-active%20development-2EA44F)
 
+<p align="center">
+  <img src="docs/assets/ari-dashboard-hero.svg" alt="Ari dashboard showing the AI workspace" width="100%" />
+</p>
+
+<p align="center"><i>Ari brings AI chat, CRM, teams, meetings, and personal work into one hosted workspace.</i></p>
+
 ## Why Ari
 
 Teams normally split work across a CRM, task manager, email client, calendar,
@@ -95,6 +101,8 @@ Authoritative result → product state + truthful response
 
 Read the complete [agent runtime contract](docs/SHARED-AGENT-RUNTIME.md) for
 the execution boundary, file rules, provider modes, and verification suite.
+
+<img src="docs/assets/ari-agent-action-flow.svg" alt="Ari validates and verifies every agent action" width="100%" />
 
 ## Architecture
 
