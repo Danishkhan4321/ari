@@ -6,8 +6,8 @@ import { GoogleSignInButton } from "./google-sign-in-button";
 type SearchParams = { error?: string };
 
 const benefits = [
-  "One secure identity across Ari",
-  "Google apps connected through Composio",
+  "One Composio-managed sign-in for Ari",
+  "Google permissions handled by Composio",
   "Your session stays signed in on this device",
 ];
 
@@ -65,7 +65,7 @@ export default async function Login({ searchParams }: { searchParams: SearchPara
             <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-[#8a837d]">Welcome to Ari</p>
             <h2 className="mt-3 text-[32px] font-semibold leading-tight tracking-[-0.045em] text-[#171717]">Sign in to your workspace</h2>
             <p className="mt-3 text-[14px] leading-6 text-[#706965]">
-              Continue with Google. Ari verifies your identity, then Composio securely connects the Google tools you choose.
+              Continue with Composio. It securely handles your Google account connection and sends you back to Ari when access is ready.
             </p>
 
             {errorMsg ? (
@@ -80,7 +80,7 @@ export default async function Login({ searchParams }: { searchParams: SearchPara
                 <GoogleSignInButton />
               ) : (
                 <div className="rounded-xl border border-[#ead0cc] bg-[#fff8f6] p-4 text-[12px] leading-5 text-[#8f342b]">
-                  Google sign-in is temporarily unavailable. Ask the Ari administrator to finish authentication setup.
+                  Composio sign-in is temporarily unavailable. Ask the Ari administrator to finish authentication setup.
                 </div>
               )}
             </div>
@@ -89,8 +89,8 @@ export default async function Login({ searchParams }: { searchParams: SearchPara
               <div className="flex items-start gap-3">
                 <span className="mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-white text-[#4d4945] shadow-[0_1px_3px_rgba(38,8,5,0.08)]"><ShieldIcon /></span>
                 <div>
-                  <p className="text-[12px] font-medium text-[#24211f]">Secure account connection</p>
-                  <p className="mt-1 text-[11px] leading-5 text-[#77716c]">Google verifies who you are. Composio manages app permissions and token refresh without exposing credentials to Ari.</p>
+                  <p className="text-[12px] font-medium text-[#24211f]">Composio authentication</p>
+                  <p className="mt-1 text-[11px] leading-5 text-[#77716c]">Composio manages Google permissions and token refresh without exposing credentials to Ari.</p>
                 </div>
               </div>
             </div>
