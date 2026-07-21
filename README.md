@@ -3,6 +3,24 @@
 > Turn a natural-language request into a verified outcome across your CRM,
 > tasks, calendar, email, meetings, files, and team workflows.
 
+<p align="center">
+  <a href="https://github.com/Danishkhan4321/ari/releases/download/v0.2.2/Ari-Setup-0.2.2.exe">
+    <img alt="Download Ari for Windows" src="https://img.shields.io/badge/Download_for_Windows-.exe-111111?style=for-the-badge&logo=windows&logoColor=white" />
+  </a>
+  &nbsp;
+  <a href="https://github.com/Danishkhan4321/ari/releases/download/v0.2.2/Ari-0.2.2-arm64.dmg">
+    <img alt="Download Ari for Mac" src="https://img.shields.io/badge/Download_for_Mac-.dmg-111111?style=for-the-badge&logo=apple&logoColor=white" />
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/Danishkhan4321/ari/releases/tag/v0.2.2">All downloads</a>
+  ·
+  <a href="https://github.com/Danishkhan4321/ari/releases/download/v0.2.2/Ari-0.2.2.dmg">Intel Mac</a>
+  ·
+  <a href="https://app.98-89-55-116.sslip.io">Open hosted app</a>
+</p>
+
 Ari is a hosted AI workspace for founders and small teams who want one
 assistant to operate their day-to-day work. Its desktop companion adds native
 workflows such as meeting capture and dictation, while the safety-first agent
