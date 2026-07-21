@@ -1,4 +1,4 @@
-name: Release Windows desktop app
+name: Release desktop apps
 
 on:
   push:
@@ -8,19 +8,65 @@ on:
 permissions:
   contents: write
 
+env:
+  ARI_DESKTOP_DASHBOARD_URL: ${{ vars.ARI_DESKTOP_DASHBOARD_URL || 'https://app.98-89-55-116.sslip.io' }}
+
 jobs:
-  release:
-    runs-on: windows-latest
+  build:
+    name: Build ${{ matrix.platform }}
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: windows
+            runner: windows-latest
+            script: build:win
+            artifact: Ari Windows Installer
+            files: |
+              desktop/dist/*.exe
+              desktop/dist/*.blockmap
+              desktop/dist/latest.yml
+          - platform: macos
+            runner: macos-latest
+            script: build:mac
+            artifact: Ari macOS Installer
+            files: |
+              desktop/dist/*.dmg
+              desktop/dist/*.zip
+              desktop/dist/*.blockmap
+              desktop/dist/latest-mac.yml
+
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
           cache-dependency-path: desktop/package-lock.json
-      - run: npm ci --prefix desktop
-      - run: npm test --prefix desktop
-      - run: npm run release:win --prefix desktop
+
+      - name: Install dependencies
+        run: npm ci --prefix desktop
+
+      - name: Run desktop tests
+        run: npm test --prefix desktop
+
+      - name: Build desktop app
+        run: npm run ${{ matrix.script }} --prefix desktop
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ARI_DESKTOP_DASHBOARD_URL: ${{ vars.ARI_DESKTOP_DASHBOARD_URL }}
+          CSC_IDENTITY_AUTO_DISCOVERY: false
+
+      - name: Upload installer artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: ${{ matrix.files }}
+          if-no-files-found: error
+
+      - name: Attach artifacts to GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ matrix.files }}
