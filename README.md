@@ -72,6 +72,33 @@ surfaces together while keeping the action layer deliberately strict:
 | **Personal productivity** | Set one-off or recurring reminders, receive daily briefings, manage notes, and work in English, Hindi, or Hinglish. |
 | **Files & research** | Attach supported documents, preserve source identity across turns, analyze PDFs, and keep session-scoped artifacts confined to the active session. |
 
+## How we used Codex and GPT-5.6
+
+**GPT-5.6 and Codex were used throughout the build of Ari—not only for one
+feature or for generating boilerplate.** They were part of the working loop
+from product decisions through implementation, testing, debugging, and final
+polish.
+
+| Area | How we used Codex and GPT-5.6 |
+| --- | --- |
+| **Product and agent design** | Turned real team workflows into a product plan; designed the natural-language-to-typed-tool execution model, confirmation rules, session behavior, and provider handoff. |
+| **Full-stack implementation** | Built and evolved the Next.js workspace, Node.js action boundary, PostgreSQL state, Python/Agno worker, Electron companion, CRM/team/meeting flows, and integrations. |
+| **Agent reliability** | Designed strict tool schemas, compact tool selection, idempotent action journals, cancellation behavior, verified tool outcomes, and provider-neutral workflow summaries. |
+| **Debugging and testing** | Investigated failed tool calls and mismatched product state, added regression tests, ran provider and smoke checks, and improved action fidelity across the product. |
+| **UX and documentation** | Improved the dashboard experience, session steering, README, architecture diagrams, demo guide, setup instructions, and judge-facing repository materials. |
+
+### How this appears inside Ari
+
+Ari also supports **direct Codex login** as one of its runtime modes. A user
+can select Codex in the desktop companion, where Ari uses the user’s direct
+Codex App Server login without converting credentials into an API key. Ari
+keeps its own validated execution boundary, durable state, and provider-neutral
+workflow summary, so the user can continue the same work when switching
+between Codex, Gemini, Vertex AI, or OpenRouter.
+
+In short: **GPT-5.6 helped us build Ari end to end, and Codex is also a
+first-class way for users to run work through Ari.**
+
 ## The Ari agent: reliable by design
 
 An agent is useful only when its work is reflected in the product. Ari treats
