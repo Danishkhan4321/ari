@@ -1,0 +1,68 @@
+{
+  "name": "ari-desktop",
+  "version": "0.1.0",
+  "private": true,
+  "author": "Ari",
+  "description": "Local Electron desktop shell for Ari",
+  "main": "src/main.js",
+  "scripts": {
+    "predev": "node scripts/migrate.js",
+    "dev": "electron .",
+    "test": "node --test",
+    "smoke": "node scripts/smoke.js",
+    "build:win": "electron-builder --win nsis --x64",
+    "build:mac-helper": "node scripts/build-macos-capture.js",
+    "build:mac": "npm run build:mac-helper && electron-builder --mac dmg zip --x64 --arm64"
+  },
+  "dependencies": {
+    "active-win": "^9.0.0",
+    "dotenv": "^16.6.1",
+    "tree-kill": "^1.2.2",
+    "uiohook-napi": "^1.5.5"
+  },
+  "devDependencies": {
+    "electron": "^43.1.1",
+    "electron-builder": "^26.15.3"
+  },
+  "build": {
+    "appId": "com.ari.desktop",
+    "productName": "Ari",
+    "asar": true,
+    "asarUnpack": [
+      "node_modules/active-win/**/*",
+      "node_modules/uiohook-napi/**/*"
+    ],
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "src/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": ["nsis"],
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "mac": {
+      "target": ["dmg", "zip"],
+      "category": "public.app-category.productivity",
+      "icon": "build/icon.icns",
+      "extendInfo": {
+        "NSScreenCaptureUsageDescription": "Ari records system audio when you choose Record Meeting.",
+        "NSMicrophoneUsageDescription": "Ari uses your microphone when you record a meeting or start voice dictation."
+      },
+      "extraResources": [
+        {
+          "from": "build/native/macos",
+          "to": "native/macos",
+          "filter": ["ari-meeting-capture"]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,106 @@
+<style>
+  .identity-wrap{max-width:1080px;margin:0 auto}
+  .identity-head{text-align:center;max-width:720px;margin:0 auto 28px}
+  .identity-head h2{font-size:34px;letter-spacing:-.04em;margin:5px 0 8px}
+  .identity-head .subtitle{font-size:15px;line-height:1.55}
+  .system-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:18px}
+  .panel{border:1px solid #e6e3ee;border-radius:20px;overflow:hidden;background:#fff;box-shadow:0 14px 40px rgba(34,22,59,.06)}
+  .panel-label{padding:14px 17px;border-bottom:1px solid #ece9f2;font-size:10px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;color:#777080}
+  .hero-stage{min-height:380px;display:grid;place-items:center;background:radial-gradient(circle at 50% 35%,#302348 0,#1b1527 45%,#100c18 100%);position:relative}
+  .hero-lockup{display:flex;align-items:center;gap:20px;color:#fff;font-size:58px;font-weight:690;letter-spacing:-.065em}
+  .hero-icon{width:168px;height:168px;border-radius:38px;display:grid;place-items:center;background:linear-gradient(145deg,#2d204d,#120e1c);box-shadow:0 28px 68px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.08)}
+  .hero-icon svg{width:128px;height:128px}
+  .spark{position:absolute;width:190px;height:190px;border-radius:50%;filter:blur(45px);background:rgba(114,75,255,.22);pointer-events:none}
+  .contexts{display:grid;grid-template-rows:1fr 1fr;gap:18px}
+  .app-context{min-height:174px;padding:18px;background:#faf9fc}
+  .sidebar-demo{height:138px;border-radius:13px;background:#15111e;color:#fff;padding:15px;display:flex;flex-direction:column;box-shadow:0 13px 30px rgba(20,12,30,.18)}
+  .side-brand{display:flex;align-items:center;gap:9px;font-size:20px;font-weight:700;letter-spacing:-.04em}
+  .side-brand svg{width:27px;height:27px}
+  .side-lines{margin-top:19px;display:grid;gap:9px}.side-line{height:8px;border-radius:6px;background:#292232}.side-line.active{background:#6f4ce8;width:72%}.side-line:nth-child(2){width:84%}.side-line:nth-child(3){width:61%}
+  .light-lockup{height:138px;border-radius:13px;background:#f4f1fb;display:flex;align-items:center;justify-content:center;gap:13px;color:#17131f;font-size:38px;font-weight:700;letter-spacing:-.06em}
+  .light-lockup svg{width:52px;height:52px}
+  .utility{grid-column:1/-1;display:grid;grid-template-columns:1.2fr .8fr;gap:0}
+  .sizes{padding:24px;display:flex;align-items:center;gap:25px;background:#fff}
+  .size{display:flex;flex-direction:column;align-items:center;gap:8px;color:#777080;font-size:10px;font-weight:700}
+  .size-box{display:grid;place-items:center;background:#17131f;border-radius:25%}.size-box svg{width:74%;height:74%}
+  .palette-box{padding:22px;background:#f6f3fb;display:flex;flex-direction:column;justify-content:center}
+  .palette-row{display:flex;gap:9px}.color{width:44px;height:44px;border-radius:13px;border:1px solid rgba(0,0,0,.07)}
+  .palette-name{font-size:12px;color:#625b69;margin-top:12px;line-height:1.45}
+  .decision{margin-top:21px}
+  .decision .options{grid-template-columns:1fr 1fr}
+  .decision .option{min-height:74px}
+  @media(max-width:850px){.system-grid{grid-template-columns:1fr}.utility{grid-column:auto;grid-template-columns:1fr}.hero-lockup{font-size:44px}.hero-icon{width:135px;height:135px}.contexts{grid-template-rows:auto}.decision .options{grid-template-columns:1fr}}
+</style>
+
+<div class="identity-wrap">
+  <div class="identity-head">
+    <div class="label">Selected direction · Prism A</div>
+    <h2>The Ari identity system</h2>
+    <p class="subtitle">A folded violet “A” that feels intelligent, dimensional, and premium—shown here as the desktop icon, dashboard branding, and compact navigation mark.</p>
+  </div>
+
+  <div class="system-grid">
+    <section class="panel">
+      <div class="panel-label">Primary desktop identity</div>
+      <div class="hero-stage">
+        <div class="spark"></div>
+        <div class="hero-lockup">
+          <div class="hero-icon">
+            <svg viewBox="0 0 160 160" aria-hidden="true">
+              <path d="M28 126 68 34c5-12 17-12 22 0l42 92h-25L79 64 53 126Z" fill="#8a65ff"/>
+              <path d="M28 126 68 34 80 64 53 126Z" fill="#5a37d6"/>
+              <path d="M58 99h44l-7-16H65Z" fill="#d8ccff"/>
+            </svg>
+          </div>
+          <span>Ari</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="contexts">
+      <section class="panel app-context">
+        <div class="panel-label" style="margin:-18px -18px 15px">Dashboard sidebar</div>
+        <div class="sidebar-demo">
+          <div class="side-brand">
+            <svg viewBox="0 0 160 160" aria-hidden="true"><path d="M28 126 68 34c5-12 17-12 22 0l42 92h-25L79 64 53 126Z" fill="#8a65ff"/><path d="M28 126 68 34 80 64 53 126Z" fill="#5a37d6"/><path d="M58 99h44l-7-16H65Z" fill="#d8ccff"/></svg>
+            <span>Ari</span>
+          </div>
+          <div class="side-lines"><div class="side-line active"></div><div class="side-line"></div><div class="side-line"></div></div>
+        </div>
+      </section>
+
+      <section class="panel app-context">
+        <div class="panel-label" style="margin:-18px -18px 15px">Light-background lockup</div>
+        <div class="light-lockup">
+          <svg viewBox="0 0 160 160" aria-hidden="true"><path d="M28 126 68 34c5-12 17-12 22 0l42 92h-25L79 64 53 126Z" fill="#8a65ff"/><path d="M28 126 68 34 80 64 53 126Z" fill="#5a37d6"/><path d="M58 99h44l-7-16H65Z" fill="#d8ccff"/></svg>
+          <span>Ari</span>
+        </div>
+      </section>
+    </div>
+
+    <section class="panel utility">
+      <div class="sizes">
+        <div class="size"><div class="size-box" style="width:88px;height:88px"><svg viewBox="0 0 160 160"><path d="M28 126 68 34c5-12 17-12 22 0l42 92h-25L79 64 53 126Z" fill="#8a65ff"/><path d="M28 126 68 34 80 64 53 126Z" fill="#5a37d6"/><path d="M58 99h44l-7-16H65Z" fill="#d8ccff"/></svg></div><span>APP ICON</span></div>
+        <div class="size"><div class="size-box" style="width:56px;height:56px"><svg viewBox="0 0 160 160"><path d="M28 126 68 34c5-12 17-12 22 0l42 92h-25L79 64 53 126Z" fill="#8a65ff"/><path d="M28 126 68 34 80 64 53 126Z" fill="#5a37d6"/><path d="M58 99h44l-7-16H65Z" fill="#d8ccff"/></svg></div><span>SIDEBAR</span></div>
+        <div class="size"><div class="size-box" style="width:32px;height:32px"><svg viewBox="0 0 160 160"><path d="M28 126 68 34c5-12 17-12 22 0l42 92h-25L79 64 53 126Z" fill="#8a65ff"/><path d="M28 126 68 34 80 64 53 126Z" fill="#5a37d6"/><path d="M58 99h44l-7-16H65Z" fill="#d8ccff"/></svg></div><span>SMALL</span></div>
+        <div class="size"><div class="size-box" style="width:20px;height:20px"><svg viewBox="0 0 160 160"><path d="M28 126 68 34c5-12 17-12 22 0l42 92h-25L79 64 53 126Z" fill="#8a65ff"/><path d="M28 126 68 34 80 64 53 126Z" fill="#5a37d6"/><path d="M58 99h44l-7-16H65Z" fill="#d8ccff"/></svg></div><span>TRAY</span></div>
+      </div>
+      <div class="palette-box">
+        <div class="panel-label" style="padding:0;border:0;margin-bottom:12px">Core palette</div>
+        <div class="palette-row"><span class="color" style="background:#17131f"></span><span class="color" style="background:#5a37d6"></span><span class="color" style="background:#8a65ff"></span><span class="color" style="background:#d8ccff"></span></div>
+        <div class="palette-name">Midnight · Deep violet · Electric violet · Soft lavender</div>
+      </div>
+    </section>
+  </div>
+
+  <div class="decision">
+    <div class="options">
+      <div class="option" data-choice="approve-prism-system" onclick="toggleSelect(this)">
+        <div class="letter">✓</div><div class="content"><h3>Lock this identity</h3><p>Use this exact system throughout the local Electron app.</p></div>
+      </div>
+      <div class="option" data-choice="refine-prism-system" onclick="toggleSelect(this)">
+        <div class="letter">↻</div><div class="content"><h3>Refine it</h3><p>Keep Prism A, but adjust a detail before production.</p></div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+{
+  "name": "lead-entity-context",
+  "description": "Create a lead, then ask about it by name — the reply must reflect CRM state (entity cards + CRM tools), not a generic answer.",
+  "user": "911000000004",
+  "turns": [
+    {
+      "send": "add lead Meera Kapoor from BlueFin Textiles email meera@bluefin.example stage proposal",
+      "expect": {
+        "matchesAny": ["meera", "lead", "added|created|saved"],
+        "notMatches": ["something went wrong"]
+      }
+    },
+    {
+      "send": "what's the latest with Meera Kapoor?",
+      "expect": {
+        "matchesAny": ["meera", "bluefin", "proposal"],
+        "notMatches": ["who is meera", "something went wrong"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+compound cases: 18   tools offered: 90 (full catalog)
+
+  gemini-2.5-flash: 1/18     gemini-2.5-flash: 2/18     gemini-2.5-flash: 3/18     gemini-2.5-flash: 4/18     gemini-2.5-flash: 5/18     gemini-2.5-flash: 6/18     gemini-2.5-flash: 7/18     gemini-2.5-flash: 8/18     gemini-2.5-flash: 9/18     gemini-2.5-flash: 10/18     gemini-2.5-flash: 11/18     gemini-2.5-flash: 12/18     gemini-2.5-flash: 13/18     gemini-2.5-flash: 14/18     gemini-2.5-flash: 15/18     gemini-2.5-flash: 16/18     gemini-2.5-flash: 17/18     gemini-2.5-flash: 18/18   
+  qwen/qwen3-235b-a22b-instruct-2507-maas: 1/18     qwen/qwen3-235b-a22b-instruct-2507-maas: 2/18     qwen/qwen3-235b-a22b-instruct-2507-maas: 3/18     qwen/qwen3-235b-a22b-instruct-2507-maas: 4/18     qwen/qwen3-235b-a22b-instruct-2507-maas: 5/18     qwen/qwen3-235b-a22b-instruct-2507-maas: 6/18     qwen/qwen3-235b-a22b-instruct-2507-maas: 7/18     qwen/qwen3-235b-a22b-instruct-2507-maas: 8/18     qwen/qwen3-235b-a22b-instruct-2507-maas: 9/18     qwen/qwen3-235b-a22b-instruct-2507-maas: 10/18     qwen/qwen3-235b-a22b-instruct-2507-maas: 11/18     qwen/qwen3-235b-a22b-instruct-2507-maas: 12/18     qwen/qwen3-235b-a22b-instruct-2507-maas: 13/18     qwen/qwen3-235b-a22b-instruct-2507-maas: 14/18     qwen/qwen3-235b-a22b-instruct-2507-maas: 15/18     qwen/qwen3-235b-a22b-instruct-2507-maas: 16/18     qwen/qwen3-235b-a22b-instruct-2507-maas: 17/18     qwen/qwen3-235b-a22b-instruct-2507-maas: 18/18   
+  xai/grok-4.1-fast-non-reasoning: 1/18     xai/grok-4.1-fast-non-reasoning: 2/18     xai/grok-4.1-fast-non-reasoning: 3/18     xai/grok-4.1-fast-non-reasoning: 4/18     xai/grok-4.1-fast-non-reasoning: 5/18     xai/grok-4.1-fast-non-reasoning: 6/18     xai/grok-4.1-fast-non-reasoning: 7/18     xai/grok-4.1-fast-non-reasoning: 8/18     xai/grok-4.1-fast-non-reasoning: 9/18     xai/grok-4.1-fast-non-reasoning: 10/18     xai/grok-4.1-fast-non-reasoning: 11/18     xai/grok-4.1-fast-non-reasoning: 12/18     xai/grok-4.1-fast-non-reasoning: 13/18     xai/grok-4.1-fast-non-reasoning: 14/18     xai/grok-4.1-fast-non-reasoning: 15/18     xai/grok-4.1-fast-non-reasoning: 16/18     xai/grok-4.1-fast-non-reasoning: 17/18     xai/grok-4.1-fast-non-reasoning: 18/18   
+  google/gemini-3-flash-preview: 1/18     google/gemini-3-flash-preview: 2/18     google/gemini-3-flash-preview: 3/18     google/gemini-3-flash-preview: 4/18     google/gemini-3-flash-preview: 5/18     google/gemini-3-flash-preview: 6/18     google/gemini-3-flash-preview: 7/18     google/gemini-3-flash-preview: 8/18     google/gemini-3-flash-preview: 9/18     google/gemini-3-flash-preview: 10/18     google/gemini-3-flash-preview: 11/18     google/gemini-3-flash-preview: 12/18     google/gemini-3-flash-preview: 13/18     google/gemini-3-flash-preview: 14/18     google/gemini-3-flash-preview: 15/18     google/gemini-3-flash-preview: 16/18     google/gemini-3-flash-preview: 17/18     google/gemini-3-flash-preview: 18/18   
+  xai/grok-4.20-non-reasoning: 1/18     xai/grok-4.20-non-reasoning: 2/18     xai/grok-4.20-non-reasoning: 3/18     xai/grok-4.20-non-reasoning: 4/18     xai/grok-4.20-non-reasoning: 5/18     xai/grok-4.20-non-reasoning: 6/18     xai/grok-4.20-non-reasoning: 7/18     xai/grok-4.20-non-reasoning: 8/18     xai/grok-4.20-non-reasoning: 9/18     xai/grok-4.20-non-reasoning: 10/18     xai/grok-4.20-non-reasoning: 11/18     xai/grok-4.20-non-reasoning: 12/18     xai/grok-4.20-non-reasoning: 13/18     xai/grok-4.20-non-reasoning: 14/18     xai/grok-4.20-non-reasoning: 15/18     xai/grok-4.20-non-reasoning: 16/18     xai/grok-4.20-non-reasoning: 17/18     xai/grok-4.20-non-reasoning: 18/18   
+
+=== compound (multi-task) bench ===
+model                              n   ALL tasks   tool recall   avg calls   p50
+gemini-2.5-flash                   18     72.2%       87.0%     1.94    3721ms
+qwen/qwen3-235b-a22b-instruct-2507-maas 18     77.8%       89.8%     2.06    3338ms
+xai/grok-4.1-fast-non-reasoning    18     83.3%       91.7%     2.00    1825ms
+google/gemini-3-flash-preview      18     94.4%       98.1%     2.06    3645ms
+xai/grok-4.20-non-reasoning        17     76.5%       89.2%     2.00    1904ms   (1 errored)
+
+  gemini-2.5-flash — tasks it dropped:
+    "jot down that pricing goes up in march and remind me to tell t…"
+       missed: manage_notes   (called: save_memory, set_reminder)
+    "add a task to fix the login bug and write down what caused it"
+       missed: manage_notes   (called: manage_tasks, save_memory)
+    "look up the latest RBI rules and save what you find as a note"
+       missed: manage_notes   (called: web_search)
+    "check what I have on friday, and if I'm free book a sync with …"
+       missed: create_calendar_event   (called: view_calendar)
+    "note that the client wants a discount, add a task to prepare t…"
+       missed: manage_notes   (called: save_memory, manage_tasks, set_reminder)
+
+  qwen/qwen3-235b-a22b-instruct-2507-maas — tasks it dropped:
+    "jot down that pricing goes up in march and remind me to tell t…"
+       missed: manage_notes   (called: save_memory, set_reminder)
+    "move Acme to negotiation and set a follow up for next week"
+       missed: manage_follow_ups   (called: manage_sales, manage_sales)
+    "show my meeting recordings and what I have on tomorrow"
+       missed: view_calendar   (called: get_meeting_recordings, daily_briefing)
+    "note that the client wants a discount, add a task to prepare t…"
+       missed: manage_notes   (called: save_memory, manage_tasks, set_reminder)
+
+  xai/grok-4.1-fast-non-reasoning — tasks it dropped:
+    "mark the report task done and let Rahul know it's finished"
+       missed: manage_tasks   (called: complete_reminder, delegate_message)
+    "jot down that pricing goes up in march and remind me to tell t…"
+       missed: manage_notes   (called: save_memory, set_reminder)
+    "look up the latest RBI rules and save what you find as a note"
+       missed: manage_notes   (called: web_search)
+
+  google/gemini-3-flash-preview — tasks it dropped:
+    "note that the client wants a discount, add a task to prepare t…"
+       missed: manage_notes   (called: save_memory, manage_tasks, set_reminder)
+
+  xai/grok-4.20-non-reasoning — tasks it dropped:
+    "jot down that pricing goes up in march and remind me to tell t…"
+       missed: manage_notes   (called: save_memory, set_reminder)
+    "add a task to fix the login bug and write down what caused it"
+       missed: manage_notes   (called: manage_tasks)
+    "check what I have on friday, and if I'm free book a sync with …"
+       missed: create_calendar_event   (called: view_calendar, check_team_availability)
+    "note that the client wants a discount, add a task to prepare t…"
+       missed: manage_notes   (called: manage_tasks, set_reminder)

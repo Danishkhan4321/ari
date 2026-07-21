@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Ari Meetings — simple preview</title>
+  <style>
+    :root{--ink:#252321;--muted:#77736e;--line:#e7e4df;--cream:#fdfbf2;--active:#f3efc9;--green:#08724e;--brown:#3b0c08;--soft:#faf9f6;--red:#a83b33}
+    *{box-sizing:border-box}body{margin:0;background:#eff0f2;color:var(--ink);font:13px/1.45 Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input{font:inherit;color:inherit}
+    .app{width:min(1460px,calc(100vw - 40px));height:calc(100vh - 40px);min-height:720px;margin:20px auto;background:#fff;border-radius:22px;overflow:hidden;display:grid;grid-template-columns:230px 1fr;box-shadow:0 0 0 1px rgba(30,20,10,.04)}
+    aside{background:var(--cream);border-right:1px solid #f1eee7;padding:20px 14px;display:flex;flex-direction:column}.brand{display:flex;align-items:center;gap:9px;padding:0 6px 18px}.logo{width:29px;height:29px;border-radius:50%;display:grid;place-items:center;background:var(--brown);color:#fff}.brand b{font-size:15px}.collapse{margin-left:auto;color:#746f69}.new{height:38px;border:1px solid #ddd9d0;background:#fff;border-radius:7px;text-align:left;padding:0 11px;box-shadow:0 2px 8px #2a1b0b0a}.eyebrow{font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:#6e6963;margin:20px 7px 8px}.nav{display:grid;gap:2px}.nav a{height:35px;display:flex;align-items:center;gap:11px;padding:0 9px;color:#403d39;text-decoration:none;border-radius:6px;font-size:12px}.nav a.active{background:var(--active);font-weight:600}.nav .ico{width:14px;text-align:center;font-size:12px}.recent{display:grid;gap:9px;padding:0 8px;color:#6e6963;font-size:10px}.account{margin-top:auto;border-top:1px solid #ebe7de;padding:13px 7px 0;display:flex;align-items:center;gap:8px}.avatar{width:25px;height:25px;border-radius:50%;display:grid;place-items:center;background:var(--brown);color:white;font-size:10px}.account small{display:block;color:#8a847d;font-size:8px}
+    main{overflow:auto;padding:31px 38px 60px}.crumb{font-size:10px;color:#9a958f;margin-bottom:8px}.crumb b{color:#4c4844}.page-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:25px}.page-head h1{font-size:25px;line-height:1.1;letter-spacing:-.035em;margin:0 0 7px;font-weight:650}.page-head p{margin:0;color:var(--muted);font-size:11px}
+    .recorder{border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:28px}.recorder-top{display:flex;align-items:center;gap:12px}.record-icon{width:34px;height:34px;border-radius:8px;background:#fbefed;color:var(--red);display:grid;place-items:center;font-size:15px}.record-copy{min-width:160px}.record-copy b{display:block;font-size:13px}.record-copy span{font-size:10px;color:var(--muted)}.ready{margin-left:auto;display:flex;gap:16px;color:#69645f;font-size:10px}.ready span:before{content:"";width:6px;height:6px;border-radius:50%;background:#39a77d;display:inline-block;margin-right:6px}.title{width:240px;height:36px;border:1px solid var(--line);border-radius:7px;padding:0 11px;outline:none}.primary{height:36px;border:0;border-radius:7px;background:var(--brown);color:#fff;padding:0 16px;font-weight:600;cursor:pointer}.secondary{height:34px;border:1px solid var(--line);border-radius:7px;background:#fff;padding:0 12px;cursor:pointer}.danger{color:var(--red)}.live{display:none;align-items:center;gap:12px;width:100%}.live-state{display:flex;align-items:center;gap:7px;font-weight:600}.pulse{width:8px;height:8px;background:#dc4d43;border-radius:50%;animation:pulse 1.2s infinite}.wave{height:24px;display:flex;align-items:center;gap:3px;flex:1;padding:0 12px}.wave i{display:block;width:2px;border-radius:2px;background:#b9d7ca;animation:wave .7s ease-in-out infinite alternate}.wave i:nth-child(2n){animation-delay:.2s}.wave i:nth-child(3n){animation-delay:.4s}@keyframes wave{from{height:4px}to{height:20px}}@keyframes pulse{50%{opacity:.35}}
+    .section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}.section-head h2{font-size:15px;margin:0 0 3px;letter-spacing:-.015em}.section-head p{font-size:10px;color:var(--muted);margin:0}.search{height:34px;width:210px;border:1px solid var(--line);border-radius:7px;padding:0 10px;background:#fff}
+    .workspace{display:grid;grid-template-columns:minmax(330px,42%) 1fr;border:1px solid var(--line);border-radius:10px;min-height:440px;overflow:hidden}.meeting-list{border-right:1px solid var(--line);background:#fff}.meeting{display:grid;grid-template-columns:1fr auto;gap:14px;padding:16px;border-bottom:1px solid var(--line);cursor:pointer}.meeting:last-child{border-bottom:0}.meeting.selected{background:#fbfaf6;box-shadow:inset 3px 0 var(--brown)}.meeting b{display:block;font-size:12px;margin-bottom:3px}.meeting small{font-size:9px;color:var(--muted)}.meeting-meta{text-align:right}.status{font-size:9px;color:var(--green);background:#eff8f4;border:1px solid #d5e9e0;border-radius:20px;padding:3px 7px}.meeting-meta small{display:block;margin-top:8px}
+    .result{padding:22px 24px;background:#fff}.result-head{display:flex;justify-content:space-between;gap:16px;padding-bottom:17px;border-bottom:1px solid var(--line)}.result h2{font-size:17px;letter-spacing:-.02em;margin:0 0 4px}.meta{font-size:9px;color:var(--muted)}.tabs{display:flex;gap:22px;border-bottom:1px solid var(--line);margin:0 0 18px}.tab{border:0;background:transparent;padding:14px 0 10px;color:#77716b;font-size:10px}.tab.active{color:var(--ink);font-weight:600;border-bottom:2px solid var(--green)}.result h3{font-size:11px;margin:0 0 9px}.summary{color:#4f4b47;font-size:11px;line-height:1.65;margin:0 0 19px}.decision{display:flex;gap:8px;align-items:flex-start;font-size:10px;margin:7px 0}.check{color:var(--green);font-weight:700}.tasks-head{display:flex;align-items:center;justify-content:space-between;margin:22px 0 8px}.tasks-head span{font-size:9px;color:var(--muted)}.task{display:grid;grid-template-columns:1fr auto;gap:15px;padding:11px 0;border-top:1px solid var(--line)}.task b{font-size:10px;display:block}.task small{font-size:9px;color:var(--muted)}.owner{display:flex;align-items:center;gap:7px;font-size:9px}.owner .avatar{width:22px;height:22px}.created{color:var(--green);font-size:8px;display:block;text-align:right;margin-top:2px}.toast{position:fixed;right:30px;bottom:28px;background:#282421;color:#fff;padding:10px 14px;border-radius:7px;font-size:10px;opacity:0;transform:translateY(8px);transition:.2s}.toast.show{opacity:1;transform:none}.preview-note{position:fixed;right:28px;bottom:25px;background:#282421;color:#fff;padding:9px 13px;border-radius:7px;font-size:9px}.hidden{display:none}
+    @media(max-width:950px){.app{grid-template-columns:200px minmax(0,1fr)}.workspace{grid-template-columns:1fr}.meeting-list{border-right:0}.result{border-top:1px solid var(--line)}.ready{display:none}.title{width:180px}main{padding-left:28px;padding-right:28px}}
+    @media(max-width:680px){body{background:#fff}.app{width:100%;height:100vh;margin:0;border-radius:0;grid-template-columns:1fr}aside{display:none}main{padding:22px 16px}.recorder-top{flex-wrap:wrap}.record-copy{flex:1}.title{width:100%;order:3}.primary{flex:1;order:4}.workspace{display:block}.meeting-list .meeting:not(.selected){display:none}.result{padding:18px}.page-head{align-items:flex-start}.search{width:150px}}
+  </style>
+</head>
+<body>
+<div class="app">
+  <aside>
+    <div class="brand"><div class="logo">ϟ</div><b>Ari</b><span class="collapse">◫</span></div>
+    <button class="new">⌕ &nbsp; New session</button>
+    <div class="eyebrow">Main menu</div>
+    <nav class="nav">
+      <a href="#"><span class="ico">⌂</span><span>Home</span></a><a href="#"><span class="ico">♧</span><span>CRM</span></a><a href="#"><span class="ico">♧</span><span>Team</span></a><a class="active" href="#"><span class="ico">▣</span><span>Meetings</span></a><a href="#"><span class="ico">▤</span><span>Personal workspace</span></a>
+    </nav>
+    <div class="eyebrow">Recent sessions</div><div class="recent"><span>Prepare the product demo narrative</span><span>Review overdue customer follow-ups</span><span>Summarize today’s team stand-up</span></div>
+    <div class="account"><div class="avatar">A</div><div>Ari workspace<small>Professional</small></div></div>
+  </aside>
+  <main>
+    <div class="crumb">Meetings / <b>Workspace</b></div>
+    <div class="page-head"><div><h1>Meetings</h1><p>Record the conversation. Ari handles everything after.</p></div></div>
+
+    <section class="recorder">
+      <div class="recorder-top" id="idle">
+        <div class="record-icon">●</div><div class="record-copy"><b>Start a meeting</b><span>System audio + microphone</span></div>
+        <div class="ready"><span>System ready</span><span>Mic ready</span></div>
+        <input class="title" value="Northstar product review" aria-label="Meeting title">
+        <button class="primary" onclick="startRecording()">Record</button>
+      </div>
+      <div class="live" id="live"><div class="live-state"><span class="pulse"></span><span id="timer">Recording 00:00</span></div><div class="wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><button class="secondary">Pause</button><button class="primary" onclick="stopRecording()">Stop & process</button><button class="secondary danger" onclick="cancelRecording()">Cancel</button></div>
+    </section>
+
+    <div class="section-head"><div><h2>Meeting history</h2><p>Your recordings and their outcomes.</p></div><input class="search" placeholder="Search meetings" aria-label="Search meetings"></div>
+    <section class="workspace">
+      <div class="meeting-list">
+        <article class="meeting selected"><div><b>Northstar product review</b><small>Today, 11:00 AM · 42 min</small></div><div class="meeting-meta"><span class="status">Ready</span><small>3 tasks</small></div></article>
+        <article class="meeting"><div><b>VectorWorks discovery call</b><small>Yesterday, 3:30 PM · 28 min</small></div><div class="meeting-meta"><span class="status">Ready</span><small>2 tasks</small></div></article>
+        <article class="meeting"><div><b>Weekly team stand-up</b><small>Jul 16, 10:00 AM · 19 min</small></div><div class="meeting-meta"><span class="status">Ready</span><small>4 tasks</small></div></article>
+        <article class="meeting"><div><b>Product launch planning</b><small>Jul 15, 2:00 PM · 36 min</small></div><div class="meeting-meta"><span class="status">Ready</span><small>5 tasks</small></div></article>
+      </div>
+      <div class="result">
+        <div class="result-head"><div><h2>Northstar product review</h2><div class="meta">Completed today at 11:42 AM · 4 speakers</div></div><button class="secondary">▶ Play</button></div>
+        <div class="tabs"><button class="tab active">Overview</button><button class="tab">Transcript</button></div>
+        <h3>Summary</h3><p class="summary">The team confirmed the 30-day Northstar pilot. Security review is the final blocker, and onboarding will begin next Tuesday.</p>
+        <h3>Decisions</h3><div class="decision"><span class="check">✓</span><span>Proceed with a 30-day pilot for Sales and Customer Success.</span></div><div class="decision"><span class="check">✓</span><span>Use the standard onboarding plan with one security checkpoint.</span></div>
+        <div class="tasks-head"><h3>Tasks created</h3><span>3 assignments detected</span></div>
+        <div class="task"><div><b>Send Northstar security overview</b><small>Due Thursday</small></div><div><div class="owner"><div class="avatar">D</div>Danish</div><span class="created">✓ Created</span></div></div>
+        <div class="task"><div><b>Prepare pilot onboarding checklist</b><small>No due date</small></div><div><div class="owner"><div class="avatar">A</div>Aisha</div><span class="created">✓ Created</span></div></div>
+        <div class="task"><div><b>Share revised proposal with Priya</b><small>Due Friday</small></div><div><div class="owner"><div class="avatar">K</div>Kunal</div><span class="created">✓ Created</span></div></div>
+      </div>
+    </section>
+  </main>
+</div>
+<div class="preview-note" id="note">Interactive preview · no data is changed</div><div class="toast" id="toast">Meeting added to processing</div>
+<script>
+  let seconds=0,clock;
+  function startRecording(){document.getElementById('idle').style.display='none';document.getElementById('live').style.display='flex';document.getElementById('note').classList.add('hidden');clock=setInterval(()=>{seconds++;document.getElementById('timer').textContent='Recording '+String(Math.floor(seconds/60)).padStart(2,'0')+':'+String(seconds%60).padStart(2,'0')},1000)}
+  function cancelRecording(){clearInterval(clock);seconds=0;document.getElementById('live').style.display='none';document.getElementById('idle').style.display='flex';document.getElementById('note').classList.remove('hidden')}
+  function stopRecording(){clearInterval(clock);document.getElementById('timer').textContent='Processing…';setTimeout(()=>{cancelRecording();let t=document.getElementById('toast');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1800)},900)}
+</script>
+</body>
+</html>

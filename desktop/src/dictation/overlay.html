@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Flowtype</title>
+    <link rel="stylesheet" href="overlay.css" />
+  </head>
+  <body>
+    <main id="bar" class="bar" data-state="idle" role="status" aria-live="polite">
+      <div class="live-strip">
+        <span class="wave-slot">
+          <canvas id="waveform" class="orb" aria-hidden="true"></canvas>
+          <span id="processing-indicator" class="processing-indicator" aria-hidden="true"></span>
+        </span>
+        <time id="elapsed" datetime="PT0S">0:00</time>
+        <button id="dismiss" type="button" aria-label="Cancel Flowtype">×</button>
+      </div>
+      <div class="copy">
+        <strong id="title">Ready</strong>
+        <span id="detail">Hold your Flowtype shortcut to speak</span>
+        <span id="preview" hidden></span>
+      </div>
+      <div id="actions" class="actions" hidden>
+        <button id="retry" type="button">Retry</button>
+        <button id="copy-last" type="button">Copy</button>
+      </div>
+    </main>
+    <script src="microphone-selector.js"></script>
+    <script src="turns.js"></script>
+    <script src="overlay.js"></script>
+  </body>
+</html>

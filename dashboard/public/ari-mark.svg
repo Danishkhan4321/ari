@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="ari-mark-title">
+  <title id="ari-mark-title">Ari</title>
+  <rect width="1024" height="1024" rx="290" fill="#211F1B"/>
+  <g fill="#FFFDF8" transform="translate(262 680) scale(.2034 -.2034)">
+    <path d="M40 0L576 1454L750 1454L1286 0L1066 0L663 1173L260 0ZM287 319L287 513L1052 513L1052 319Z"/>
+    <path transform="translate(1198)" d="M160 0L160 1038L364 1038L364 0ZM731 792Q704 825 663 842Q622 859 568 859Q471 859 417.5 805.5Q364 752 364 657L343 857Q390 949 466.5 1001Q543 1053 635 1053Q706 1053 763.5 1032.5Q821 1012 864 972Z"/>
+    <path transform="translate(1944)" d="M160 0L160 1038L364 1038L364 0Z"/>
+  </g>
+  <circle cx="711" cy="414" r="28" fill="#F4D000"/>
+</svg>

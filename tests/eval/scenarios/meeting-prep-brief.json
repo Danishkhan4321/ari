@@ -1,0 +1,14 @@
+{
+  "name": "meeting-prep-brief",
+  "description": "Prep-brief intercept answers deterministically: guidance when the person is unknown, entity brief when known.",
+  "user": "911000000006",
+  "turns": [
+    {
+      "send": "prep me for my meeting with Rohan Verma",
+      "expect": {
+        "matchesAny": ["prep", "context", "brief", "rohan"],
+        "notMatches": ["something went wrong"]
+      }
+    }
+  ]
+}

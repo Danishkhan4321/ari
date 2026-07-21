@@ -1,0 +1,49 @@
+model: gemini-2.5-flash
+phrasings: 180  (360 model calls)
+
+  ...20/180
+  ...40/180
+  ...60/180
+  ...80/180
+  ...100/180
+  ...120/180
+  ...140/180
+  ...160/180
+  ...180/180
+
+=== which condition picks the right tool? (180 phrasings, 0 errored) ===
+  A  filtered menu (~24 tools):  123  68.3%   avg 3740 prompt tokens
+  B  full catalog  (90 tools):  139  77.2%   avg 9541 prompt tokens
+
+  of 32 phrasings where the filter hid the right tool, the full catalog recovered 21
+  of 123 the filtered menu got right, the full catalog broke 10
+
+  distracted by the bigger menu:
+    "kill tomorrow standup, not happening"
+      want cancel_calendar_event, full catalog chose manage_standup
+    "write to Acme saying we are ready to start"
+      want send_email, full catalog chose delegate_message
+    "mail everyone in the investors group about the raise"
+      want bulk_email, full catalog chose manage_campaigns
+    "mark the report one as done"
+      want manage_tasks, full catalog chose complete_reminder
+    "circle back with Acme on tuesday"
+      want manage_follow_ups, full catalog chose set_reminder
+    "jot this down: pricing goes up in march"
+      want manage_notes, full catalog chose save_memory
+    "add a slide about pricing"
+      want manage_slides, full catalog chose no tool
+    "I need quiet time until 4"
+      want focus_mode, full catalog chose no tool
+    "how much did I burn this month"
+      want manage_expenses, full catalog chose no tool
+    "let me link my google account"
+      want connect_google, full catalog chose link_account
+
+  elapsed 219s
+  extra prompt tokens per turn if we drop the filter: ~5801
+
+=== latency, measured separately (20 phrasings, same model, sequential) ===
+  A  filtered 24:  avg 2138ms  p50 1989ms  p90 3648ms
+  B  full 90:      avg 2477ms  p50 2044ms  p90 4207ms
+  => the filter buys ~55ms at p50 and costs 8.9 accuracy points.

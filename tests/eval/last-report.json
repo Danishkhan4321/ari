@@ -1,0 +1,96 @@
+{
+  "runs": 1,
+  "when": "2026-07-17T10:20:29.649Z",
+  "report": [
+    {
+      "name": "explicit-command-no-chat",
+      "passK": true,
+      "runs": [
+        {
+          "passed": true,
+          "turns": [
+            {
+              "send": "list my tasks",
+              "reply": "No pending tasks!\n\nAdd one:\n- \"add task: finish report\"\n- \"assign task to Emily: review PR\"",
+              "failures": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help-command",
+      "passK": true,
+      "runs": [
+        {
+          "passed": true,
+          "turns": [
+            {
+              "send": "help",
+              "reply": "Hi! I'm Ari 👋\n\nI'm an AI assistant that lives on WhatsApp. Talk to me in pretty much any language (English, Hindi, Spanish, French, German, Arabic, Chinese, Japanese) and send text, voice notes, photos, or PDFs. Whatever's easiest.\n\nHere's the kind of stuff I handle:\n\n📅 *Meetings & calendar*\nBook,",
+              "failures": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "lead-entity-context",
+      "passK": true,
+      "runs": [
+        {
+          "passed": true,
+          "turns": [
+            {
+              "send": "add lead Meera Kapoor from BlueFin Textiles email meera@bluefin.example stage proposal",
+              "reply": "Lead added!\n\n*Meera Kapoor* @ BlueFin Textiles\nEmail: meera@bluefin.example\nNotes: stage proposal\nStage: New (ID: 148)\n\n_\"my leads\" to see pipeline | \"follow up with [name]\" to email_",
+              "failures": []
+            },
+            {
+              "send": "what's the latest with Meera Kapoor?",
+              "reply": "Multiple leads found:\n- *Meera Kapoor* (ID: 146)\n- *Meera Kapoor* (ID: 147)\n- *Meera Kapoor* (ID: 148)\n\nSpecify the ID: _\"lead details #146\"_",
+              "failures": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "meeting-prep-brief",
+      "passK": true,
+      "runs": [
+        {
+          "passed": true,
+          "turns": [
+            {
+              "send": "prep me for my meeting with Rohan Verma",
+              "reply": "I don't have context on *Rohan Verma* yet — no matching lead, contact, or meeting. Add them to your CRM or record a meeting, and the next brief will be richer.",
+              "failures": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "reminder-set-and-list",
+      "passK": true,
+      "runs": [
+        {
+          "passed": true,
+          "turns": [
+            {
+              "send": "remind me tomorrow at 9am to call the electrician",
+              "reply": "Reminder set\n\n\"call the electrician\"\n\nin 17h 10m",
+              "failures": []
+            },
+            {
+              "send": "show my reminders",
+              "reply": "*Your Reminders (3)*\n\n*Pending (3)*\n1. call the electrician\n   Tomorrow 9:00 am\n2. call the electrician\n   Tomorrow 9:00 am\n3. call the electrician\n   Tomorrow 9:00 am\n\n\n_\"cancel reminder [number]\" to cancel_",
+              "failures": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

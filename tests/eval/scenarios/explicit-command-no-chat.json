@@ -1,0 +1,14 @@
+{
+  "name": "explicit-command-no-chat",
+  "description": "Explicit tool commands must not fall into generic chat (regression guard for the deterministic router).",
+  "user": "911000000005",
+  "turns": [
+    {
+      "send": "list my tasks",
+      "expect": {
+        "matchesAny": ["task", "nothing pending", "no tasks|empty"],
+        "notMatches": ["as an ai", "i can help you with", "something went wrong"]
+      }
+    }
+  ]
+}

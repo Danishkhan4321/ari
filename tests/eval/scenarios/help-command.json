@@ -1,0 +1,14 @@
+{
+  "name": "help-command",
+  "description": "Deterministic help path must always answer with the feature list — no LLM involved.",
+  "user": "911000000001",
+  "turns": [
+    {
+      "send": "help",
+      "expect": {
+        "matchesAny": ["remind", "meeting", "task"],
+        "notMatches": ["something went wrong", "error"]
+      }
+    }
+  ]
+}

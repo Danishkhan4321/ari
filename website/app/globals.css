@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bowlby+One&family=Caveat:wght@400;500;600;700&family=Bagel+Fat+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..900&display=swap');
+
+/* Custom Flux variable font — used for the ARI hero wordmark */
+@font-face {
+  font-family: 'Flux';
+  src: url('/fonts/FluxVF.ttf') format('truetype-variations'),
+       url('/fonts/FluxVF.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #F2F5F2;
+  color: #000;
+}
+
+@layer components {
+  /* Neo-Brutal Primary Button */
+  .btn-brutal {
+    @apply inline-block font-medium text-lg
+           bg-card-lemon text-black
+           border-2 border-black rounded-[4px]
+           px-10 py-4
+           shadow-brutal
+           hover:shadow-brutal-hover hover:translate-x-[2px] hover:translate-y-[2px]
+           active:shadow-none active:translate-x-1 active:translate-y-1
+           transition-all duration-150 cursor-pointer;
+  }
+
+  /* Neo-Brutal Small Button */
+  .btn-brutal-sm {
+    @apply inline-block font-medium text-base
+           bg-btn-cta text-black
+           border-2 border-black rounded-[4px]
+           px-6 py-2
+           shadow-brutal
+           hover:shadow-brutal-hover hover:translate-x-[2px] hover:translate-y-[2px]
+           active:shadow-none active:translate-x-1 active:translate-y-1
+           transition-all duration-150 cursor-pointer;
+  }
+
+  /* Neo-Brutal Neutral Button */
+  .btn-brutal-neutral {
+    @apply inline-block font-medium text-lg
+           bg-card text-black
+           border-2 border-black rounded-[4px]
+           px-10 py-4
+           shadow-brutal
+           hover:shadow-brutal-hover hover:translate-x-[2px] hover:translate-y-[2px]
+           active:shadow-none active:translate-x-1 active:translate-y-1
+           transition-all duration-150 cursor-pointer;
+  }
+
+  /* Neo-Brutal Purple Button */
+  .btn-brutal-purple {
+    @apply inline-block font-medium text-lg
+           bg-card-purple text-white
+           border-2 border-black rounded-[4px]
+           px-10 py-4
+           shadow-brutal
+           hover:shadow-brutal-hover hover:translate-x-[2px] hover:translate-y-[2px]
+           active:shadow-none active:translate-x-1 active:translate-y-1
+           transition-all duration-150 cursor-pointer;
+  }
+
+  /* Neo-Brutal Card */
+  .card-brutal {
+    @apply bg-card border-2 border-black shadow-brutal;
+  }
+}
+
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.marquee-scroll {
+  animation: marquee-scroll 30s linear infinite;
+}

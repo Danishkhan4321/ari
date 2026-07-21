@@ -1,0 +1,5 @@
+# Pinned because the worker relies on the exact 2.7.4 Agent, Function, and
+# PostgresDb APIs verified against the official Agno release.
+agno[google,openai,postgres,psycopg,sql]==2.7.4
+google-genai==2.12.1
+jsonschema==4.25.1

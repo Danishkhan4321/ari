@@ -1,0 +1,141 @@
+node_modules/
+
+# ── Secrets & credentials (CRITICAL — never commit) ────────────────────
+.env
+.env.*
+!.env.example
+!dashboard/.env.example
+*.pem
+*.key
+*.cert
+*.p12
+*.pfx
+credentials.json
+service-account*.json
+secrets/
+*.crt
+auth.json
+
+# ── Logs ──────────────────────────────────────────────────────────────
+*.log
+logs/
+pm2-logs/
+
+# ── Debug / data dumps (may contain user PII) ─────────────────────────
+*.out.json
+db_out.json
+out.json
+dump.json
+db_check.js.out
+*-test-result.json
+*-test-results.json
+45min-*.json
+db_check_output.json
+
+# ── Test artifacts that may contain real user phone numbers / messages ──
+.test-baselines/
+qa-reports/
+test-results/
+
+# ── Dev eval / experiment scripts (local only, not for the repo) ────────
+/test/
+/test-deep/
+/test-*.js
+runpod_result.json
+scripts/smoke-test-*.js
+scripts/eval-*.json
+scripts/eval-results*.json
+scripts/multilingual-eval*.js
+scripts/live-test-results-*.md
+scripts/test-all-templates.js
+scripts/test-bedrock-adapter.js
+scripts/test-bulk-email-parsing.js
+scripts/test-firecrawl-form-detection.js
+scripts/test-intent-natural-language.js
+scripts/test-pending-state.js
+scripts/test-pro-escalation-rate.js
+scripts/test-recurrence.js
+scripts/test-recurring-reminder-survival.js
+scripts/test-regex.js
+scripts/test-tomorrow-regex.js
+tests/integration-smoke.test.js
+
+# ── Planning + working notes (may contain business-sensitive analysis) ──
+.planning/
+NIGHT-BUILD-REPORT.md
+QA-COMPREHENSIVE-REPORT.md
+
+# ── IDE state ─────────────────────────────────────────────────────────
+.cursor/
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# ── OS files ──────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── Temp + backup files ───────────────────────────────────────────────
+tmp/
+temp/
+*.tmp
+*.bak
+*.backup
+*.backup-*
+
+# Python/Agno runtime and local attachment staging
+.venv/
+.venv-agno/
+__pycache__/
+*.py[cod]
+.ari-session-attachments/
+
+# ── Promptfoo evals (may contain real prompts/PII) ───────────────────
+promptfooconfig.yaml
+.promptfoo/
+
+# ── One-off patch / verify scripts (applied once, not for the repo) ───
+scripts/patch-*.js
+scripts/verify-*.js
+scripts/analyze-thm-run3.js
+scripts/send-ayushi-onboard.js
+scripts/fix-bedrock-credentials.js
+scripts/replace-whisper-with-assemblyai.js
+
+# ── Local one-off scripts that hit prod (not for sharing) ────────────
+db_check.js
+delete_test.js
+dump.js
+qa_test.sh
+# Integration test contains real production phone numbers + email addresses
+scripts/integration-test-full.js
+scripts/real-user-test.js
+scripts/inspect-visa-tables.js
+scripts/backup-and-drop-visa-tables.js
+scripts/inspect-schema.js
+scripts/check-orphan-fk-rows.js
+
+# ── Generated / build output ──────────────────────────────────────────
+dist/
+build/
+.next/
+# Desktop build of the dashboard — generated output, never source.
+.next-desktop/
+.cache/
+scripts/standup-simulation.js
+test_reminder.js
+
+# Apr 30 2026 — out-of-scope / stale artifacts excluded from sharing
+two-pass-result.json
+update-attorneys.js
+build-userdata.sh
+deploy/
+test_output.txt
+test/results/
+
+# Electron desktop local output
+desktop/node_modules/
+desktop/dist/
+desktop/dist-check/
+desktop/logs/

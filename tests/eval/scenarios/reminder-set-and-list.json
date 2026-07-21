@@ -1,0 +1,21 @@
+{
+  "name": "reminder-set-and-list",
+  "description": "Set a reminder, then list reminders (deterministic list intercept) and see it.",
+  "user": "911000000003",
+  "turns": [
+    {
+      "send": "remind me tomorrow at 9am to call the electrician",
+      "expect": {
+        "matchesAny": ["reminder", "remind", "9"],
+        "notMatches": ["something went wrong", "couldn.t set"]
+      }
+    },
+    {
+      "send": "show my reminders",
+      "expect": {
+        "matchesAny": ["electrician"],
+        "notMatches": ["no reminders", "something went wrong"]
+      }
+    }
+  ]
+}

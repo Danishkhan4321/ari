@@ -1,0 +1,928 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+:root {
+  --ari-product-canvas: #e8e9ec;
+  --ari-nav: #fffdf3;
+  --ari-nav-active: #f4f0cf;
+  --ari-ink: #0a0a0a;
+  --ari-accent: #f7dd2a;
+  --ari-accent-strong: #dec51f;
+  --ari-focus: #f7dd2a;
+  --ari-success: #1d7a32;
+  --ari-danger: #bd2b2b;
+  --ari-lilac: #eee4fa;
+  --ari-blue: #dfe9ff;
+  --ari-lime: #eefaca;
+  --ari-peach: #ffe8d6;
+  --ari-surface: #ffffff;
+  --ari-canvas: #ffffff;
+  --ari-surface-subtle: #faf9f6;
+  --ari-accent-soft: #f4f0cf;
+  --ari-border: #dfddda;
+  --ari-border-strong: #cfcac4;
+  --ari-text: #141414;
+  --ari-text-muted: #706965;
+  /* Compatibility aliases for feature views while they migrate to semantic names. */
+  --ari-violet-700: #0a0a0a;
+  --ari-violet-600: #0a0a0a;
+  --ari-violet-500: #0a0a0a;
+  --ari-violet-400: #f7dd2a;
+  --ari-lavender: #f4f0cf;
+  --ari-midnight: #0a0a0a;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--ari-canvas);
+  color: var(--ari-text);
+}
+
+/* CRM rebuild: intentionally flat and information-led. These primitives keep
+   CRM, Team, and Meetings aligned with Ari's warm yellow product language. */
+@layer components {
+  .crm-page {
+    @apply min-h-full bg-white text-[#171717];
+  }
+
+  .crm-page-inner {
+    @apply mx-auto w-full max-w-[1240px] px-5 pb-12 pt-7 sm:px-8 lg:px-10 lg:pt-9;
+  }
+
+  .crm-breadcrumb {
+    @apply flex flex-wrap items-center gap-1.5 text-[11px] font-normal text-[#77736f];
+  }
+
+  .crm-page-title {
+    @apply text-[23px] font-semibold leading-tight tracking-[-0.035em] text-[#171717];
+  }
+
+  .crm-page-copy {
+    @apply mt-1.5 max-w-[650px] text-[12px] font-normal leading-[1.6] text-[#77736f];
+  }
+
+  .crm-panel {
+    @apply overflow-hidden rounded-[12px] border border-[#deddd8] bg-white;
+  }
+
+  .crm-panel-header {
+    @apply flex min-h-12 flex-wrap items-center justify-between gap-3 border-b border-[#e5e3df] px-4 py-3 sm:px-5;
+  }
+
+  .crm-section-title {
+    @apply text-[12.5px] font-semibold tracking-[-0.01em] text-ari-ink;
+  }
+
+  .crm-label {
+    @apply mb-1.5 block text-[10px] font-medium uppercase tracking-[0.08em] text-[#77736f];
+  }
+
+  .crm-input {
+    @apply h-9 w-full rounded-[8px] border border-[#d9d7d2] bg-white px-3 text-[12px] font-normal text-[#171717] outline-none transition placeholder:text-[#aaa6a0] hover:border-[#bdbab4] focus:border-[#dec51f] focus:ring-2 focus:ring-[#f7dd2a]/20 disabled:bg-[#f7f6f2] disabled:text-[#9b9892];
+  }
+
+  .crm-textarea {
+    @apply min-h-[112px] w-full resize-y rounded-[8px] border border-[#d9d7d2] bg-white px-3 py-2.5 text-[12px] font-normal leading-[1.6] text-[#171717] outline-none transition placeholder:text-[#aaa6a0] hover:border-[#bdbab4] focus:border-[#dec51f] focus:ring-2 focus:ring-[#f7dd2a]/20;
+  }
+
+  .crm-select {
+    @apply crm-input appearance-none bg-[linear-gradient(45deg,transparent_50%,#77736f_50%),linear-gradient(135deg,#77736f_50%,transparent_50%)] bg-[position:calc(100%-14px)_15px,calc(100%-10px)_15px] bg-[size:4px_4px,4px_4px] bg-no-repeat pr-8;
+  }
+
+  .crm-button {
+    @apply inline-flex min-h-9 items-center justify-center gap-2 rounded-[8px] border border-[#d9d7d2] bg-white px-3 text-[11.5px] font-medium text-[#24211f] transition hover:border-[#bdbab4] hover:bg-[#faf9f5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ari-focus disabled:pointer-events-none disabled:opacity-45;
+  }
+
+  .crm-button-primary {
+    @apply border-[#0a0a0a] bg-[#0a0a0a] text-white hover:border-[#242424] hover:bg-[#242424];
+  }
+
+  .crm-button-danger {
+    @apply border-[#e5c7c7] text-[#a32424] hover:border-[#d69d9d] hover:bg-[#fff6f5];
+  }
+
+  .crm-icon-button {
+    @apply grid h-8 w-8 shrink-0 place-items-center rounded-[8px] border border-[#deddd8] bg-white text-[#5f5a56] transition hover:border-[#bdbab4] hover:bg-[#faf9f5] hover:text-[#171717] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ari-focus;
+  }
+
+  .crm-table-wrap {
+    @apply w-full overflow-x-auto;
+  }
+
+  .crm-table {
+    @apply w-full min-w-[760px] border-collapse text-left text-[11.5px];
+  }
+
+  .crm-table thead {
+    @apply bg-[#faf9f5] text-[#77736f];
+  }
+
+  .crm-table th {
+    @apply whitespace-nowrap border-b border-[#e5e3df] px-4 py-2.5 text-[9.5px] font-medium uppercase tracking-[0.07em];
+  }
+
+  .crm-table td {
+    @apply border-b border-[#eceae6] px-4 py-3 align-middle font-normal text-[#3c3834];
+  }
+
+  .crm-table tbody tr:last-child td {
+    @apply border-b-0;
+  }
+
+  .crm-table tbody tr {
+    @apply transition-colors hover:bg-[#fdfcf8];
+  }
+
+  .crm-status {
+    @apply inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-[9.5px] font-medium capitalize;
+  }
+
+  .crm-modal-backdrop {
+    @apply fixed inset-0 z-[120] flex items-center justify-center overflow-y-auto bg-[#201a17]/35 p-4 backdrop-blur-[1px];
+  }
+
+  .crm-modal {
+    @apply w-full max-w-[560px] overflow-hidden rounded-[14px] border border-[#d9d7d2] bg-white shadow-[0_24px_80px_rgba(38,8,5,0.16)];
+  }
+
+  .crm-toast {
+    @apply fixed bottom-5 right-5 z-[150] flex max-w-sm items-start gap-2 rounded-[6px] border border-[#c9ded2] bg-white px-4 py-3 text-[11.5px] text-[#185d42] shadow-[0_12px_36px_rgba(38,8,5,0.12)];
+  }
+
+  /* Team shares CRM's quiet, information-first visual language while keeping
+     its existing chat, calendar, broadcast, and operations components. */
+  .team-page .dash-card,
+  .team-page .dash-card-hero {
+    @apply rounded-[12px] border border-[#deddd8] bg-white shadow-none;
+  }
+
+  .team-page .dash-card-hero {
+    background-image: none;
+  }
+
+  .team-page .dash-btn {
+    @apply inline-flex min-h-9 items-center justify-center gap-2 rounded-[8px] border border-[#d9d7d2] bg-white px-3 text-[11.5px] font-medium text-[#24211f] shadow-none transition hover:border-[#bdbab4] hover:bg-[#faf9f5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ari-focus disabled:pointer-events-none disabled:opacity-45;
+  }
+
+  .team-page .dash-btn-primary {
+    @apply border-[#0a0a0a] bg-[#0a0a0a] text-white hover:border-[#242424] hover:bg-[#242424];
+  }
+
+  .team-page .dash-input {
+    @apply h-9 rounded-[8px] border border-[#d9d7d2] bg-white px-3 text-[12px] font-normal text-[#171717] shadow-none outline-none transition placeholder:text-[#aaa6a0] hover:border-[#bdbab4] focus:border-[#dec51f] focus:ring-2 focus:ring-[#f7dd2a]/20;
+  }
+
+  .team-page .dash-label {
+    @apply text-[10px] font-medium uppercase tracking-[0.08em] text-[#77736f];
+  }
+
+  .team-page .dash-h1 {
+    @apply font-semibold tracking-[-0.035em] text-[#171717];
+  }
+
+  .team-page .dash-h2 {
+    @apply text-[12.5px] font-semibold tracking-[-0.01em] text-ari-ink;
+  }
+
+  .team-page .dash-tab {
+    @apply rounded-[8px] px-3 py-2 text-[11px] font-normal text-[#77736f];
+  }
+
+  .team-page .dash-tab-active {
+    @apply bg-[#f4f0cf] font-medium text-[#24211f];
+  }
+
+  .team-page table th {
+    @apply font-medium;
+  }
+}
+
+html[data-ari-desktop="true"] body {
+  padding-top: 36px;
+}
+
+html[data-ari-desktop="true"] body::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 100;
+  display: block;
+  height: 36px;
+  background: var(--ari-product-canvas);
+  -webkit-app-region: drag;
+}
+
+.ari-desktop-toolbar {
+  position: fixed;
+  top: 2px;
+  left: 18px;
+  z-index: 101;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  -webkit-app-region: no-drag;
+}
+
+.ari-desktop-toolbar-button {
+  display: grid;
+  width: 26px;
+  height: 28px;
+  place-items: center;
+  border-radius: 6px;
+  color: var(--ari-text-muted);
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.ari-desktop-toolbar-button:hover {
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--ari-ink);
+}
+
+.ari-desktop-toolbar-button:focus-visible {
+  outline: 2px solid var(--ari-focus);
+  outline-offset: 1px;
+}
+
+.ari-desktop-toolbar-button svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.45;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@layer components {
+  /* Legacy button shapes retained with Ari's white-and-violet palette. */
+  .btn-brutal {
+    @apply inline-block font-medium text-lg
+           bg-card-lemon text-white
+           border-2 border-ari-violet-700 rounded-[4px]
+           px-10 py-4
+           shadow-brutal
+           hover:shadow-brutal-hover hover:translate-x-[2px] hover:translate-y-[2px]
+           active:shadow-none active:translate-x-1 active:translate-y-1
+           transition-all duration-150 cursor-pointer;
+  }
+
+  .btn-brutal-sm {
+    @apply inline-block font-medium text-base
+           bg-btn-cta text-white
+           border-2 border-ari-violet-700 rounded-[4px]
+           px-6 py-2
+           shadow-brutal
+           hover:shadow-brutal-hover hover:translate-x-[2px] hover:translate-y-[2px]
+           active:shadow-none active:translate-x-1 active:translate-y-1
+           transition-all duration-150 cursor-pointer;
+  }
+
+  .btn-brutal-neutral {
+    @apply inline-block font-medium text-lg
+           bg-card text-black
+           border-2 border-ari-border-strong rounded-[4px]
+           px-10 py-4
+           shadow-brutal
+           hover:shadow-brutal-hover hover:translate-x-[2px] hover:translate-y-[2px]
+           active:shadow-none active:translate-x-1 active:translate-y-1
+           transition-all duration-150 cursor-pointer;
+  }
+
+  .btn-brutal-purple {
+    @apply inline-block font-medium text-lg
+           bg-card-purple text-white
+           border-2 border-ari-violet-700 rounded-[4px]
+           px-10 py-4
+           shadow-brutal
+           hover:shadow-brutal-hover hover:translate-x-[2px] hover:translate-y-[2px]
+           active:shadow-none active:translate-x-1 active:translate-y-1
+           transition-all duration-150 cursor-pointer;
+  }
+
+  .card-brutal {
+    @apply bg-card border-2 border-ari-border-strong shadow-brutal;
+  }
+
+  /* Form input — brutal style */
+  .input-brutal {
+    @apply w-full bg-white text-ari-text
+           border-2 border-ari-border-strong rounded-[4px]
+           px-4 py-3 text-lg font-medium
+           shadow-brutal
+           focus:outline-none focus:border-ari-violet-500 focus:ring-2 focus:ring-ari-lavender
+           focus:shadow-brutal-hover focus:translate-x-[2px] focus:translate-y-[2px]
+           transition-all duration-150;
+  }
+}
+
+@layer components {
+  /* ── Folk-soft layer ("System B") ────────────────────────────────────
+     These classes are referenced across the dashboard CRM surfaces
+     (contacts, pipeline, groups, campaigns, KPI strip) but were never
+     defined — so those surfaces rendered unstyled. They intentionally read
+     softer than the neo-brutal btn-brutal/card-brutal family: thin borders,
+     gentle radii, restrained shadows (closer to Folk/Linear). Defining them
+     here is the prerequisite for the rest of the CRM polish. */
+
+  .dash-page { @apply max-w-[1180px] mx-auto w-full; }
+
+  .dash-card {
+    @apply bg-card border border-ari-border rounded-xl;
+    box-shadow: 0 1px 2px rgba(38, 8, 5, 0.025);
+  }
+  /* Prominent container card. Kept neutral near-white (not a colored wash)
+     because it's the generic outer surface for whole sections (home, inbox,
+     meetings, notes, reminders, tasks, team) whose inner content is designed
+     against a light background. */
+  .dash-card-hero {
+    @apply bg-card border border-ari-border rounded-[12px];
+    box-shadow: 0 1px 2px rgba(38, 8, 5, 0.025);
+  }
+  /* Softer card used by activity-timeline rows and inline panels. */
+  .card-soft {
+    @apply bg-card border border-ari-border rounded-[8px];
+  }
+
+  .dash-h1 { @apply font-semibold tracking-[-0.025em] leading-[1.15] text-ari-ink; }
+  .dash-h2 { @apply font-medium tracking-[-0.015em] leading-snug text-ari-ink; }
+
+  .dash-label {
+    @apply block text-[9.5px] uppercase tracking-[0.14em] font-medium text-txt-muted;
+  }
+
+  .dash-input {
+    @apply w-full bg-white text-ari-text border border-ari-border rounded-lg
+           px-3 py-2 text-[12.5px] font-normal outline-none
+           placeholder:text-txt-muted
+           hover:border-ari-border-strong focus:border-ari-ink
+           focus:ring-2 focus:ring-ari-focus transition-colors;
+  }
+
+  .dash-btn {
+    @apply inline-flex items-center justify-center gap-1.5
+           border border-ari-border rounded-lg bg-white
+           px-3 py-2 text-[12px] font-medium text-ari-text
+           hover:bg-ari-subtle hover:border-ari-border-strong transition-colors cursor-pointer
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ari-focus
+           disabled:opacity-50 disabled:pointer-events-none;
+  }
+  .dash-btn-primary {
+    @apply bg-ari-ink text-white border-ari-ink hover:bg-[#242424];
+    box-shadow: none;
+  }
+
+  /* Segmented-control tab: consumers wrap these in a white pill frame
+     (inline-flex gap-1 bg-white border rounded-lg p-1) and expect the active
+     one to be a filled dark pill — the active count badge is rendered
+     text-white/65, i.e. white-on-dark. */
+  .dash-tab {
+    @apply relative inline-flex items-center rounded-md px-3 py-1.5
+           text-[12px] font-normal text-txt-muted
+           hover:bg-ari-subtle hover:text-ari-ink transition-colors cursor-pointer
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ari-focus;
+  }
+  .dash-tab-active { @apply bg-ari-nav-active text-ari-ink font-medium hover:bg-ari-nav-active hover:text-ari-ink; }
+
+  .dash-pill {
+    @apply inline-flex items-center px-2 py-0.5 rounded-full
+           border border-ari-border bg-ari-subtle text-[10.5px] font-medium;
+  }
+
+  /* Tabular figures for aligned numbers in tables/KPIs. */
+  .num { font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
+}
+
+@layer components {
+  /* Ari chat: a restrained white workspace with a soft neutral navigation
+     plane. Hierarchy comes from spacing, borders, and typography. */
+  .ari-chat-shell {
+    background: #ffffff;
+    font-feature-settings: "ss01", "cv02", "cv03", "cv04";
+  }
+
+  .ari-product-canvas {
+    padding: 0;
+  }
+
+  .ari-product-frame {
+    min-height: 0;
+    gap: 12px;
+    background: transparent;
+  }
+
+  @media (min-width: 768px) {
+    .ari-product-canvas {
+      padding: 10px 12px 12px;
+    }
+
+    .ari-product-frame {
+      border: 0;
+      border-radius: 0;
+      box-shadow: none;
+    }
+  }
+
+  html[data-ari-desktop="true"] .ari-chat-shell {
+    height: calc(100vh - 36px);
+  }
+
+  html[data-ari-desktop="true"] .ari-workspace-shell {
+    height: calc(100vh - 36px);
+  }
+
+  html[data-ari-desktop="true"] .ari-product-canvas {
+    height: calc(100vh - 36px);
+    padding: 10px 12px 12px;
+  }
+
+  html[data-ari-desktop="true"] .ari-product-frame {
+    border: 0;
+    border-radius: 0;
+    gap: 12px;
+    box-shadow: none;
+  }
+
+  .ari-chat-frame {
+    background: transparent;
+  }
+
+  .ari-home-rail {
+    background: var(--ari-nav);
+  }
+
+  .ari-home-rail-mark {
+    background: var(--ari-ink);
+    box-shadow: none;
+  }
+
+  .ari-home-switcher {
+    letter-spacing: -0.01em;
+  }
+
+  .ari-home-welcome {
+    max-width: 900px;
+  }
+
+  .ari-home-mark {
+    border: 1px solid rgba(38, 8, 5, 0.08);
+    box-shadow: 0 6px 16px rgba(222, 197, 31, 0.18);
+  }
+
+  .ari-home-prompt-card {
+    border: 1px solid var(--ari-border);
+    background: #ffffff;
+    box-shadow: 0 1px 2px rgba(38, 8, 5, 0.025);
+  }
+
+  .ari-home-prompt-card:hover {
+    border-color: #e1d36a;
+    background: #fffef9;
+    box-shadow: 0 8px 18px rgba(38, 8, 5, 0.06);
+    transform: translateY(-1px);
+  }
+
+  .ari-chat-sidebar {
+    position: relative;
+    overflow: hidden;
+    border-right: 0;
+    background: #ffffff;
+  }
+
+  .ari-chat-sidebar-panel {
+    border: 1px solid var(--ari-border);
+    border-radius: 16px;
+    background: var(--ari-nav);
+    box-shadow: 0 8px 24px rgba(38, 8, 5, 0.045), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  }
+
+  .ari-chat-sidebar-panel > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .ari-chat-sidebar-brand {
+    border-bottom: 1px solid var(--ari-border);
+    background: transparent;
+  }
+
+  .ari-new-chat {
+    border: 1px solid #e5dda3;
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(38, 8, 5, 0.04);
+  }
+
+  .ari-new-chat:hover {
+    background: #ffffff;
+    box-shadow: 0 5px 14px rgba(41, 34, 50, 0.07);
+    transform: translateY(-1px);
+  }
+
+  .ari-chat-sidebar nav a,
+  .ari-chat-sidebar nav button {
+    border: 1px solid transparent;
+    color: var(--ari-text-muted);
+  }
+
+  .ari-chat-sidebar nav a:hover,
+  .ari-chat-sidebar nav button:hover {
+    border-color: #e5dda3;
+    background: #fffef8;
+    color: var(--ari-ink);
+  }
+
+  .ari-chat-sidebar nav a[aria-current="page"] {
+    border-color: #e5dda3;
+    background: var(--ari-nav-active);
+    color: var(--ari-text);
+    box-shadow: 0 3px 10px rgba(38, 8, 5, 0.055);
+  }
+
+  .ari-chat-sidebar [aria-label="Recent chats"] > div:first-child {
+    color: var(--ari-text-muted);
+    letter-spacing: 0.14em;
+  }
+
+  .ari-chat-sidebar [aria-label="Recent chats"] a,
+  .ari-chat-sidebar [aria-label="Recent chats"] button {
+    border: 1px solid transparent;
+    color: var(--ari-text-muted);
+  }
+
+  .ari-chat-sidebar [aria-label="Recent chats"] a:hover,
+  .ari-chat-sidebar [aria-label="Recent chats"] button:hover {
+    border-color: #e5dda3;
+    background: #fffef8;
+    color: var(--ari-ink);
+  }
+
+  .ari-chat-sidebar-panel > div:last-child {
+    border-top-color: var(--ari-border);
+    background: var(--ari-nav);
+  }
+
+  .ari-chat-sidebar-panel > div:last-child > button:last-child:hover {
+    background: #ffffff;
+  }
+
+  .ari-chat-main {
+    position: relative;
+    margin: 0;
+    border: 1px solid var(--ari-border);
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: 0 1px 2px rgba(38, 8, 5, 0.025);
+  }
+
+  .ari-chat-main::before {
+    display: none;
+  }
+
+  .ari-chat-panel-header {
+    background: #ffffff;
+  }
+
+  .ari-chat-scroll {
+    position: relative;
+    scrollbar-color: rgba(112, 105, 101, 0.28) transparent;
+    scrollbar-width: thin;
+  }
+
+  .ari-chat-scroll::-webkit-scrollbar,
+  .ari-home-rail *::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .ari-chat-scroll::-webkit-scrollbar-track,
+  .ari-home-rail *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .ari-chat-scroll::-webkit-scrollbar-thumb,
+  .ari-home-rail *::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: rgba(112, 105, 101, 0.24);
+  }
+
+  .ari-agent-activity {
+    min-height: 32px;
+  }
+
+  .ari-agent-progress {
+    color: var(--ari-text-muted);
+  }
+
+  .ari-agent-progress-body {
+    max-width: 100%;
+  }
+
+  .ari-agent-live {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ari-agent-live::after {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    content: "";
+    background: linear-gradient(105deg, transparent 35%, rgba(247, 221, 42, 0.14) 50%, transparent 65%);
+    transform: translateX(-120%);
+    animation: ari-live-sweep 2.8s ease-in-out infinite;
+  }
+
+  .ari-live-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--ari-text-muted);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.015em;
+  }
+
+  .ari-live-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--ari-accent);
+    box-shadow: 0 0 0 0 rgba(247, 221, 42, 0.42);
+    animation: ari-live-pulse 1.7s ease-out infinite;
+  }
+
+  .ari-live-signal i {
+    display: block;
+    width: 100%;
+    border-radius: 999px;
+    background: #e6cf25;
+    animation: ari-live-bars 1.15s ease-in-out infinite;
+  }
+
+  .ari-live-signal i:nth-child(1) { height: 3px; animation-delay: 0ms; }
+  .ari-live-signal i:nth-child(2) { height: 6px; animation-delay: 130ms; }
+  .ari-live-signal i:nth-child(3) { height: 4px; animation-delay: 260ms; }
+  .ari-live-signal i:nth-child(4) { height: 2px; animation-delay: 390ms; }
+
+  @keyframes ari-live-sweep {
+    0%, 30% { transform: translateX(-120%); }
+    75%, 100% { transform: translateX(120%); }
+  }
+
+  @keyframes ari-live-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(247, 221, 42, 0.4); }
+    80%, 100% { box-shadow: 0 0 0 6px rgba(247, 221, 42, 0); }
+  }
+
+  @keyframes ari-live-bars {
+    0%, 100% { opacity: 0.36; transform: scaleY(0.55); }
+    50% { opacity: 1; transform: scaleY(1); }
+  }
+
+  .ari-activity-glyph {
+    border: 1px solid #e5dda3;
+    background: var(--ari-nav);
+    color: var(--ari-ink);
+    box-shadow: 0 2px 7px rgba(38, 8, 5, 0.07);
+  }
+
+  .ari-activity-core {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: ari-activity-breathe 1.8s ease-in-out infinite;
+  }
+
+  @keyframes ari-activity-breathe {
+    0%, 100% { opacity: 0.55; transform: scale(0.78) rotate(0deg); }
+    50% { opacity: 1; transform: scale(1) rotate(45deg); }
+  }
+
+  .ari-message-user {
+    border: 1px solid var(--ari-border);
+    background: var(--ari-surface-subtle);
+    box-shadow: 0 2px 8px rgba(38, 8, 5, 0.035);
+  }
+
+  .ari-message-assistant {
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .ari-markdown {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .ari-markdown > :first-child {
+    margin-top: 0;
+  }
+
+  .ari-markdown > :last-child {
+    margin-bottom: 0;
+  }
+
+  .ari-markdown p,
+  .ari-markdown ul,
+  .ari-markdown ol,
+  .ari-markdown blockquote,
+  .ari-markdown pre,
+  .ari-markdown table,
+  .ari-markdown hr {
+    margin: 0.7rem 0;
+  }
+
+  .ari-markdown h1,
+  .ari-markdown h2,
+  .ari-markdown h3,
+  .ari-markdown h4 {
+    margin: 1rem 0 0.45rem;
+    color: var(--ari-text);
+    font-weight: 650;
+    line-height: 1.35;
+  }
+
+  .ari-markdown h1 { font-size: 1.25rem; }
+  .ari-markdown h2 { font-size: 1.125rem; }
+  .ari-markdown h3,
+  .ari-markdown h4 { font-size: 1rem; }
+
+  .ari-markdown ul,
+  .ari-markdown ol {
+    padding-left: 1.35rem;
+  }
+
+  .ari-markdown ul { list-style: disc; }
+  .ari-markdown ol { list-style: decimal; }
+  .ari-markdown li + li { margin-top: 0.2rem; }
+  .ari-markdown li > ul,
+  .ari-markdown li > ol { margin: 0.2rem 0; }
+
+  .ari-markdown a {
+    color: var(--ari-ink);
+    text-decoration: underline;
+    text-decoration-color: var(--ari-accent-strong);
+    text-underline-offset: 2px;
+  }
+
+  .ari-markdown a:hover {
+    text-decoration-color: currentColor;
+  }
+
+  .ari-markdown blockquote {
+    border-left: 3px solid var(--ari-accent);
+    padding-left: 0.85rem;
+    color: var(--ari-text-muted);
+  }
+
+  .ari-markdown code {
+    border-radius: 5px;
+    background: #f6f3e8;
+    padding: 0.12rem 0.32rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    font-size: 0.88em;
+  }
+
+  .ari-markdown pre {
+    max-width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--ari-border);
+    border-radius: 10px;
+    background: #faf9f4;
+    padding: 0.8rem 0.9rem;
+  }
+
+  .ari-markdown pre code {
+    background: transparent;
+    padding: 0;
+    font-size: 0.82rem;
+  }
+
+  .ari-markdown table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    border-collapse: collapse;
+    font-size: 0.9em;
+  }
+
+  .ari-markdown th,
+  .ari-markdown td {
+    border: 1px solid var(--ari-border);
+    padding: 0.35rem 0.55rem;
+    text-align: left;
+  }
+
+  .ari-markdown th {
+    background: #faf9f4;
+    font-weight: 650;
+  }
+
+  .ari-markdown hr {
+    border: 0;
+    border-top: 1px solid var(--ari-border);
+  }
+
+  .ari-markdown input[type="checkbox"] {
+    margin-right: 0.4rem;
+  }
+
+  .ari-assistant-avatar,
+  .ari-welcome-mark {
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: var(--ari-ink);
+    box-shadow: 0 10px 22px rgba(38, 8, 5, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  .ari-welcome-panel {
+    border: 1px solid var(--ari-border);
+    border-radius: 28px;
+    background: #ffffff;
+    box-shadow: 0 10px 30px rgba(38, 8, 5, 0.05);
+  }
+
+  .ari-prompt-card {
+    border: 1px solid var(--ari-border);
+    background: #ffffff;
+    box-shadow: 0 3px 12px rgba(38, 8, 5, 0.04);
+  }
+
+  .ari-prompt-card:hover {
+    border-color: #e1d36a;
+    background: #ffffff;
+    box-shadow: 0 7px 18px rgba(38, 8, 5, 0.07);
+  }
+
+  .ari-chat-composer-wrap {
+    position: relative;
+    background: #ffffff;
+  }
+
+  .ari-chat-composer {
+    border: 1px solid var(--ari-border);
+    background: #ffffff;
+    box-shadow: 0 12px 32px rgba(38, 8, 5, 0.075), 0 2px 6px rgba(38, 8, 5, 0.035);
+  }
+
+  .ari-chat-context-bar {
+    background: #faf9f6;
+  }
+
+  .ari-chat-composer:focus-within {
+    border-color: var(--ari-accent-strong);
+    background: #ffffff;
+    box-shadow: 0 14px 36px rgba(38, 8, 5, 0.09), 0 0 0 3px rgba(247, 221, 42, 0.16);
+  }
+
+  .ari-chat-send {
+    background: var(--ari-accent);
+    box-shadow: 0 7px 18px rgba(222, 197, 31, 0.28);
+  }
+
+  .ari-chat-send:hover:not(:disabled) {
+    transform: translateY(-1px);
+    background: var(--ari-accent-strong);
+    box-shadow: 0 10px 22px rgba(222, 197, 31, 0.34);
+  }
+
+  .ari-chat-send:disabled {
+    background: #e8e4d3;
+    color: #9a9487;
+  }
+
+  @media (max-width: 767px) {
+    .ari-workspace-main,
+    .ari-chat-main {
+      margin: 0;
+      border: 0;
+      border-radius: 0;
+      background: #ffffff;
+    }
+
+    .ari-message-assistant {
+      max-width: 100%;
+    }
+
+    .ari-welcome-panel {
+      border-radius: 22px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ari-activity-core,
+    .ari-agent-live::after,
+    .ari-live-dot,
+    .ari-live-signal i {
+      animation: none;
+    }
+  }
+
+}
