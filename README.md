@@ -3,20 +3,24 @@
 > Turn a natural-language request into a verified outcome across your CRM,
 > tasks, calendar, email, meetings, files, and team workflows.
 
+## Download Ari
+
 <p align="center">
   <a href="https://github.com/Danishkhan4321/ari/releases/download/v0.2.3/Ari-Setup-0.2.3.exe">
-    <img alt="Download Ari for Windows" src="https://img.shields.io/badge/Download_for_Windows-.exe-111111?style=for-the-badge&logo=windows&logoColor=white" />
+    <img alt="Download Ari for Windows" src="https://img.shields.io/badge/Windows-Download_EXE-111111?style=for-the-badge&logo=windows&logoColor=white" />
   </a>
   &nbsp;
   <a href="https://github.com/Danishkhan4321/ari/releases/download/v0.2.3/Ari-0.2.3-arm64.dmg">
-    <img alt="Download Ari for Mac" src="https://img.shields.io/badge/Download_for_Mac-.dmg-111111?style=for-the-badge&logo=apple&logoColor=white" />
+    <img alt="Download Ari for Mac Apple Silicon" src="https://img.shields.io/badge/Mac_Apple_Silicon-Download_DMG-111111?style=for-the-badge&logo=apple&logoColor=white" />
+  </a>
+  &nbsp;
+  <a href="https://github.com/Danishkhan4321/ari/releases/download/v0.2.3/Ari-0.2.3.dmg">
+    <img alt="Download Ari for Mac Intel" src="https://img.shields.io/badge/Mac_Intel-Download_DMG-111111?style=for-the-badge&logo=apple&logoColor=white" />
   </a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/Danishkhan4321/ari/releases/tag/v0.2.3">All downloads</a>
-  ·
-  <a href="https://github.com/Danishkhan4321/ari/releases/download/v0.2.3/Ari-0.2.3.dmg">Intel Mac</a>
+  <a href="https://github.com/Danishkhan4321/ari/releases/tag/v0.2.3">View all release downloads</a>
   ·
   <a href="https://app.98-89-55-116.sslip.io">Open hosted app</a>
 </p>
