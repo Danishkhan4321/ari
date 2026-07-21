@@ -1,0 +1,84 @@
+name: ari
+
+services:
+  backend:
+    build:
+      context: ../..
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file:
+      - ${ARI_ENV_FILE:-../../.env.production}
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      ARI_SESSION_ATTACHMENT_DIR: /app/.ari-session-attachments
+    expose:
+      - "3000"
+    volumes:
+      - ari_logs:/app/logs
+      - ari_attachments:/app/.ari-session-attachments
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          memory: 1100M
+
+  dashboard:
+    build:
+      context: ../../dashboard
+      dockerfile: Dockerfile.production
+    restart: unless-stopped
+    env_file:
+      - ${ARI_ENV_FILE:-../../.env.production}
+    environment:
+      NODE_ENV: production
+      HOSTNAME: 0.0.0.0
+      PORT: 43101
+      BOT_INTERNAL_URL: http://backend:3000
+      ARI_SESSION_ATTACHMENT_DIR: /app/.ari-session-attachments
+    expose:
+      - "43101"
+    volumes:
+      - ari_attachments:/app/.ari-session-attachments
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:43101/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    deploy:
+      resources:
+        limits:
+          memory: 650M
+
+  caddy:
+    image: caddy:2.10.2-alpine
+    restart: unless-stopped
+    env_file:
+      - ${ARI_ENV_FILE:-../../.env.production}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      dashboard:
+        condition: service_healthy
+      backend:
+        condition: service_healthy
+
+volumes:
+  ari_logs:
+  ari_attachments:
+  caddy_data:
+  caddy_config:

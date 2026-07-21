@@ -1,0 +1,48 @@
+name: Validate and deploy AWS
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ari-production
+  cancel-in-progress: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci --legacy-peer-deps
+      - run: npm test
+      - run: npm ci --prefix dashboard
+      - run: npm test --prefix dashboard
+      - run: npm run build --prefix dashboard
+      - run: npm ci --prefix desktop
+      - run: npm test --prefix desktop
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    env:
+      LIGHTSAIL_HOST: ${{ secrets.LIGHTSAIL_HOST }}
+      LIGHTSAIL_SSH_KEY: ${{ secrets.LIGHTSAIL_SSH_KEY }}
+      LIGHTSAIL_KNOWN_HOSTS: ${{ secrets.LIGHTSAIL_KNOWN_HOSTS }}
+    steps:
+      - name: Deployment is not configured yet
+        if: env.LIGHTSAIL_HOST == ''
+        run: echo "Validation passed; add the Lightsail repository secrets to enable deployment."
+      - name: Deploy current main branch
+        if: env.LIGHTSAIL_HOST != ''
+        shell: bash
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s' "$LIGHTSAIL_SSH_KEY" > ~/.ssh/ari_lightsail
+          chmod 600 ~/.ssh/ari_lightsail
+          printf '%s\n' "$LIGHTSAIL_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          ssh -i ~/.ssh/ari_lightsail ubuntu@"$LIGHTSAIL_HOST" 'cd /opt/ari && bash ops/aws/deploy.sh'

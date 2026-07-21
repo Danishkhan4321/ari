@@ -15,7 +15,9 @@ const { loadOrCreateInternalToken, removeInternalToken } = require('./internal-t
 const { exchangeDesktopTicket, googleAuthStartUrl, ticketFromCommandLine, ticketFromDeepLink } = require('./desktop-auth');
 
 const repoRoot = process.env.ARI_REPO_ROOT || path.resolve(__dirname, '..', '..');
-const runtime = createRuntimeConfig(repoRoot);
+const runtime = createRuntimeConfig(repoRoot, {
+  packagedConfigPath: app.isPackaged ? path.join(process.resourcesPath, 'app-config.json') : undefined,
+});
 let services = null;
 let backendService = null;
 let mainWindow = null;
@@ -125,7 +127,7 @@ async function launch() {
   launchInProgress = true;
   await mainWindow.loadFile(path.join(__dirname, 'startup.html'));
   try {
-    await startLocalServices();
+    if (!runtime.hosted) await startLocalServices();
     await mainWindow.loadURL(runtime.dashboardEntryUrl);
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unknown startup error';
@@ -334,6 +336,20 @@ async function boot() {
   await launch();
   if (pendingAuthTicket) void completeDesktopAuth(pendingAuthTicket);
   dictationController.start();
+  if (app.isPackaged) {
+    try {
+      const { autoUpdater } = require('electron-updater');
+      autoUpdater.autoDownload = true;
+      autoUpdater.autoInstallOnAppQuit = true;
+      setTimeout(() => {
+        void autoUpdater.checkForUpdatesAndNotify().catch((error) => {
+          fs.appendFile(logPath, `${new Date().toISOString()} [Ari update] ${String(error?.message || error)}\n`, () => {});
+        });
+      }, 5000);
+    } catch (error) {
+      fs.appendFile(logPath, `${new Date().toISOString()} [Ari update] ${String(error?.message || error)}\n`, () => {});
+    }
+  }
   if (process.env.ARI_DESKTOP_SMOKE === 'true') {
     setTimeout(() => app.quit(), 20000);
   }

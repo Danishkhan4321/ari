@@ -1,3 +1,4 @@
+const fs = require('node:fs');
 const path = require('node:path');
 const dotenv = require('dotenv');
 
@@ -15,11 +16,36 @@ function loadLocalEnvironment(repoRoot, baseEnv = process.env) {
   return { ...parsed, ...baseEnv };
 }
 
-function buildRuntimeConfig({ repoRoot, env }) {
+function normalizedHostedUrl(raw) {
+  if (!raw) return null;
+  let url;
+  try { url = new URL(String(raw)); } catch { throw new TypeError('ARI_DESKTOP_DASHBOARD_URL must be a valid URL'); }
+  const loopback = ['127.0.0.1', 'localhost', '::1'].includes(url.hostname);
+  if (url.protocol !== 'https:' && !(loopback && url.protocol === 'http:')) {
+    throw new TypeError('ARI_DESKTOP_DASHBOARD_URL must use HTTPS');
+  }
+  return url.origin;
+}
+
+function loadPackagedConfig(configPath) {
+  if (!configPath) return {};
+  try {
+    return JSON.parse(fs.readFileSync(configPath, 'utf8'));
+  } catch (error) {
+    if (error?.code === 'ENOENT') return {};
+    throw new Error(`Could not read Ari desktop configuration: ${error.message}`);
+  }
+}
+
+function buildRuntimeConfig({ repoRoot, env, packagedConfig = {} }) {
   const backendPort = Number(env.ARI_DESKTOP_BACKEND_PORT || 43100);
   const dashboardPort = Number(env.ARI_DESKTOP_DASHBOARD_PORT || 43101);
   const backendUrl = `http://127.0.0.1:${backendPort}`;
-  const dashboardUrl = `http://127.0.0.1:${dashboardPort}`;
+  const hostedDashboardUrl = normalizedHostedUrl(
+    env.ARI_DESKTOP_DASHBOARD_URL || packagedConfig.dashboardUrl
+  );
+  const hosted = Boolean(hostedDashboardUrl);
+  const dashboardUrl = hostedDashboardUrl || `http://127.0.0.1:${dashboardPort}`;
   const requestedEntryPath = String(env.ARI_DESKTOP_ENTRY_PATH || '/chat').trim();
   const dashboardEntryPath = requestedEntryPath.startsWith('/') && !requestedEntryPath.startsWith('//')
     ? requestedEntryPath
@@ -79,6 +105,7 @@ function buildRuntimeConfig({ repoRoot, env }) {
     backendUrl,
     dashboardUrl,
     dashboardEntryUrl,
+    hosted,
     desktopPhone,
     captureDirectory,
     internalTokenAvailable: Boolean(childEnv.ARI_DESKTOP_INTERNAL_TOKEN),
@@ -87,8 +114,16 @@ function buildRuntimeConfig({ repoRoot, env }) {
   };
 }
 
-function createRuntimeConfig(repoRoot) {
-  return buildRuntimeConfig({ repoRoot, env: loadLocalEnvironment(repoRoot) });
+function createRuntimeConfig(repoRoot, options = {}) {
+  const packagedConfig = options.packagedConfig || loadPackagedConfig(options.packagedConfigPath);
+  return buildRuntimeConfig({ repoRoot, env: loadLocalEnvironment(repoRoot), packagedConfig });
 }
 
-module.exports = { buildRuntimeConfig, createRuntimeConfig, firstAdminPhone, loadLocalEnvironment };
+module.exports = {
+  buildRuntimeConfig,
+  createRuntimeConfig,
+  firstAdminPhone,
+  loadLocalEnvironment,
+  loadPackagedConfig,
+  normalizedHostedUrl,
+};

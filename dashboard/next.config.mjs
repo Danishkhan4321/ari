@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  output: 'standalone',
   // Keep Electron's long-running development server isolated from production
   // builds. Next otherwise writes both into `.next`, which can leave the
   // desktop server holding a partially replaced module graph.

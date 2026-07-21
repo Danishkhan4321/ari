@@ -2,7 +2,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const path = require('node:path');
 
-const { buildRuntimeConfig, firstAdminPhone } = require('../src/config');
+const { buildRuntimeConfig, firstAdminPhone, normalizedHostedUrl } = require('../src/config');
 
 test('desktop runtime uses loopback URLs and disables background work', () => {
   const config = buildRuntimeConfig({
@@ -70,4 +70,21 @@ test('desktop can explicitly use an isolated in-memory database for safe local Q
 test('firstAdminPhone normalizes the first configured phone', () => {
   assert.equal(firstAdminPhone('919876543210,+14155550123'), '+919876543210');
   assert.equal(firstAdminPhone(''), null);
+});
+
+test('desktop can load a hosted dashboard without starting repository services', () => {
+  const config = buildRuntimeConfig({
+    repoRoot: path.resolve('D:/example/ari'),
+    env: {},
+    packagedConfig: { dashboardUrl: 'https://ari.example.test/something' },
+  });
+
+  assert.equal(config.hosted, true);
+  assert.equal(config.dashboardUrl, 'https://ari.example.test');
+  assert.equal(config.dashboardEntryUrl, 'https://ari.example.test/chat');
+});
+
+test('hosted dashboard configuration requires HTTPS away from loopback', () => {
+  assert.throws(() => normalizedHostedUrl('http://ari.example.test'), /must use HTTPS/);
+  assert.equal(normalizedHostedUrl('http://localhost:43101'), 'http://localhost:43101');
 });

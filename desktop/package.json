@@ -1,6 +1,6 @@
 {
   "name": "ari-desktop",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "author": "Ari",
   "description": "Local Electron desktop shell for Ari",
@@ -10,13 +10,16 @@
     "dev": "electron .",
     "test": "node --test",
     "smoke": "node scripts/smoke.js",
-    "build:win": "electron-builder --win nsis --x64",
+    "prepare:hosted-build": "node scripts/write-build-config.js",
+    "build:win": "npm run prepare:hosted-build && electron-builder --win nsis --x64",
+    "release:win": "npm run prepare:hosted-build && electron-builder --win nsis --x64 --publish always",
     "build:mac-helper": "node scripts/build-macos-capture.js",
     "build:mac": "npm run build:mac-helper && electron-builder --mac dmg zip --x64 --arm64"
   },
   "dependencies": {
     "active-win": "^9.0.0",
     "dotenv": "^16.6.1",
+    "electron-updater": "^6.6.2",
     "tree-kill": "^1.2.2",
     "uiohook-napi": "^1.5.5"
   },
@@ -24,13 +27,18 @@
     "electron": "^43.1.1",
     "electron-builder": "^26.15.3"
   },
+  "overrides": {
+    "tar": "7.5.20"
+  },
   "build": {
     "appId": "com.ari.desktop",
     "productName": "Ari",
     "protocols": [
       {
         "name": "Ari sign-in",
-        "schemes": ["ari"]
+        "schemes": [
+          "ari"
+        ]
       }
     ],
     "asar": true,
@@ -46,8 +54,23 @@
       "src/**/*",
       "package.json"
     ],
+    "extraResources": [
+      {
+        "from": "build/app-config.json",
+        "to": "app-config.json"
+      }
+    ],
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "Danishkhan4321",
+        "repo": "ari"
+      }
+    ],
     "win": {
-      "target": ["nsis"],
+      "target": [
+        "nsis"
+      ],
       "icon": "build/icon.ico"
     },
     "nsis": {
@@ -55,7 +78,10 @@
       "allowToChangeInstallationDirectory": true
     },
     "mac": {
-      "target": ["dmg", "zip"],
+      "target": [
+        "dmg",
+        "zip"
+      ],
       "category": "public.app-category.productivity",
       "icon": "build/icon.icns",
       "extendInfo": {
@@ -66,7 +92,9 @@
         {
           "from": "build/native/macos",
           "to": "native/macos",
-          "filter": ["ari-meeting-capture"]
+          "filter": [
+            "ari-meeting-capture"
+          ]
         }
       ]
     }

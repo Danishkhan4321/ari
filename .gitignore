@@ -139,3 +139,4 @@ desktop/node_modules/
 desktop/dist/
 desktop/dist-check/
 desktop/logs/
+desktop/build/app-config.json

@@ -1,0 +1,26 @@
+name: Release Windows desktop app
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: desktop/package-lock.json
+      - run: npm ci --prefix desktop
+      - run: npm test --prefix desktop
+      - run: npm run release:win --prefix desktop
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ARI_DESKTOP_DASHBOARD_URL: ${{ vars.ARI_DESKTOP_DASHBOARD_URL }}
