@@ -1,6 +1,8 @@
-FROM node:20-alpine
+FROM node:22-alpine
 
 WORKDIR /app
+
+RUN addgroup -g 1001 -S ari && adduser -S ari -u 1001 -G ari
 
 # Install dependencies first (better caching)
 RUN apk add --no-cache python3 py3-pip
@@ -18,15 +20,11 @@ ENV ARI_AGNO_PYTHON=/opt/ari-agno/bin/python \
     ARI_AGENT_FILE_TOTAL_MAX_BYTES=52428800
 
 # Copy application code
-COPY . .
+COPY --chown=ari:ari . .
 
 # Create runtime-owned local directories
-RUN mkdir -p logs .ari-session-attachments
-
-# Non-root user for security
-RUN addgroup -g 1001 -S ari && \
-    adduser -S ari -u 1001 -G ari && \
-    chown -R ari:ari /app
+RUN mkdir -p logs .ari-session-attachments && \
+    chown ari:ari logs .ari-session-attachments
 USER ari
 
 EXPOSE 3000
