@@ -19,7 +19,10 @@ export async function GET(req: Request) {
     );
   }
   const url = new URL(req.url);
-  const flow = url.searchParams.get("flow") === "onboarding" ? "onboarding" : "signin";
+  const requestedFlow = url.searchParams.get("flow");
+  const flow = url.searchParams.get("client") === "desktop"
+    ? "desktop"
+    : requestedFlow === "onboarding" ? "onboarding" : "signin";
 
   // State carries flow flag — the callback parses both the random token
   // (CSRF) and the flow tag.

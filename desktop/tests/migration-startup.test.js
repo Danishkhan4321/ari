@@ -26,6 +26,7 @@ test('desktop development applies the agent and chat migrations before Electron 
   assert.match(source, /26_remove_retired_meeting_provider_tables/);
   assert.match(source, /27_team_task_ownership/);
   assert.match(source, /28_meeting_task_links/);
+  assert.match(source, /33_google_login_identities/);
   assert.ok(source.indexOf('27_team_task_ownership') < source.indexOf('28_meeting_task_links'));
   assert.match(source, /node-pg-migrate/);
   assert.match(source, /migrations-table/);

@@ -27,8 +27,8 @@ test('desktop runtime uses loopback URLs and disables background work', () => {
   assert.equal(config.childEnv.BOT_INTERNAL_URL, config.backendUrl);
   assert.equal(config.childEnv.DASHBOARD_BASE_URL, config.dashboardUrl);
   assert.equal(config.childEnv.ARI_DEMO_MODE, 'false');
-  assert.equal(config.childEnv.ARI_DESKTOP_AUTH_BYPASS, 'true');
-  assert.equal(config.childEnv.ARI_DEMO_USER_PHONE, '+919876543210');
+  assert.equal(config.childEnv.ARI_DESKTOP_AUTH_BYPASS, 'false');
+  assert.equal(config.childEnv.ARI_DEMO_USER_PHONE, undefined);
   assert.equal(config.childEnv.ARI_DESKTOP_LOCAL_FILES, 'true');
   assert.equal(config.childEnv.SUPABASE_URL, '');
   assert.equal(config.childEnv.SUPABASE_ANON_KEY, '');
@@ -45,6 +45,16 @@ test('desktop authentication bypass can be disabled', () => {
   assert.equal(config.childEnv.ARI_DEMO_MODE, 'false');
   assert.equal(config.childEnv.ARI_DESKTOP_AUTH_BYPASS, 'false');
   assert.equal(config.childEnv.ARI_DEMO_USER_PHONE, undefined);
+});
+
+test('desktop authentication bypass requires an explicit local QA opt-in', () => {
+  const config = buildRuntimeConfig({
+    repoRoot: path.resolve('D:/example/ari'),
+    env: { ADMIN_PHONES: '919876543210', ARI_DESKTOP_AUTH_BYPASS: 'true' }
+  });
+
+  assert.equal(config.childEnv.ARI_DESKTOP_AUTH_BYPASS, 'true');
+  assert.equal(config.childEnv.ARI_DEMO_USER_PHONE, '+919876543210');
 });
 
 test('desktop can explicitly use an isolated in-memory database for safe local QA', () => {

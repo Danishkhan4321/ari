@@ -66,6 +66,7 @@ function ChevronIcon({ open }: { open: boolean }) {
 }
 
 function maskAccount(value: string): string {
+  if (/^000\d{17}$/.test(value)) return "Google account";
   const clean = value.replace(/\s/g, "");
   return clean.length <= 5 ? clean : `${clean.slice(0, 3)}••••${clean.slice(-3)}`;
 }

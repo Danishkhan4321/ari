@@ -27,6 +27,14 @@ export async function GET() {
     try { return await fn(); } catch { return fallback; }
   };
 
+  const identity = await safe(async () =>
+    (await query<{ email: string | null; display_name: string | null }>(
+      `SELECT email, display_name FROM ari_user_identities
+        WHERE user_phone = $1 AND provider = 'google' LIMIT 1`,
+      [userPhone]
+    )).rows[0] ?? null
+  , null as { email: string | null; display_name: string | null } | null);
+
   // Fetch google_email AND google_name (column may not exist on older
   // deploys; the catch will swallow that).
   const google = await safe(async () =>
@@ -37,8 +45,8 @@ export async function GET() {
   , null as { google_email: string | null; google_name: string | null } | null);
 
   // If google_name column doesn't exist yet, retry without it.
-  let googleEmail: string | null = google?.google_email ?? null;
-  let googleName: string | null = google?.google_name ?? null;
+  let googleEmail: string | null = google?.google_email ?? identity?.email ?? null;
+  let googleName: string | null = google?.google_name ?? identity?.display_name ?? null;
   if (!google) {
     const fallback = await safe(async () =>
       (await query<{ google_email: string | null }>(
@@ -47,7 +55,7 @@ export async function GET() {
       )).rows[0] ?? null
     , null);
     if (fallback) {
-      googleEmail = fallback.google_email;
+      googleEmail = fallback.google_email || identity?.email || null;
     }
   }
 

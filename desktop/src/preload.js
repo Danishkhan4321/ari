@@ -6,6 +6,9 @@ const meetingProgressChannel = 'desktop:meetings:progress';
 contextBridge.exposeInMainWorld('ariDesktop', Object.freeze({
   retry: () => ipcRenderer.send('desktop:retry'),
   quit: () => ipcRenderer.send('desktop:quit'),
+  auth: Object.freeze({
+    startGoogle: () => ipcRenderer.invoke('desktop:auth:google'),
+  }),
   ai: Object.freeze({
     getStatus: () => ipcRenderer.invoke('desktop:ai:status'),
     connectCodex: () => ipcRenderer.invoke('desktop:ai:connect'),

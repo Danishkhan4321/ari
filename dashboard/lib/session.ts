@@ -11,7 +11,11 @@ import { randomBytes } from "crypto";
 import { query } from "./db";
 
 const COOKIE_NAME = "ari_session";
-const SESSION_DAYS = 30;
+const configuredSessionDays = Number(process.env.ARI_SESSION_DAYS || 365);
+export const SESSION_DAYS = Number.isFinite(configuredSessionDays)
+  ? Math.min(3650, Math.max(1, Math.floor(configuredSessionDays)))
+  : 365;
+export const SESSION_MAX_AGE_SECONDS = SESSION_DAYS * 24 * 60 * 60;
 
 let tableReady = false;
 async function ensureTable(): Promise<void> {
@@ -72,7 +76,7 @@ export function setSessionCookie(token: string) {
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     path: "/",
-    maxAge: SESSION_DAYS * 24 * 60 * 60,
+    maxAge: SESSION_MAX_AGE_SECONDS,
   });
 }
 

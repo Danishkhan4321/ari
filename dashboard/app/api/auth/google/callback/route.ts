@@ -1,22 +1,26 @@
 // dashboard/app/api/auth/google/callback/route.ts
 // GET /api/auth/google/callback?code=…&state=…
-// Two flows funnel through here:
+// Three flows funnel through here:
 //
 // 1. signin (default) — user clicked "Continue with Google" on /login.
-//    We look up their Google email in google_tokens; if found, sign in.
-//    If not found, redirect to /login with error=not_connected (they
-//    haven't bought yet).
+//    A verified Google identity is resolved to a stable Ari account, creating
+//    one on first use. Existing WhatsApp-linked accounts are preserved.
 //
 // 2. onboarding — user is mid-wizard on /onboarding and just authorised
 //    Google. We attach the email to the pending_onboarding row carried
 //    by the ari_onboarding_sub cookie, then bounce them back to
 //    /onboarding so the wizard's last button can finalize.
+//
+// 3. desktop — the system browser completes Google OAuth, then receives a
+//    one-time ticket that hands the session back to the installed Ari app.
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { exchangeCodeForUserInfo, getGoogleClient } from "@/lib/google-oauth";
 import { query } from "@/lib/db";
 import { createSession, setSessionCookie } from "@/lib/session";
 import { readOnboardingCookie, setGoogleEmail, getPending } from "@/lib/onboarding";
+import { resolveGoogleIdentity } from "@/lib/google-identity";
+import { createDesktopAuthTicket } from "@/lib/desktop-auth";
 
 export const dynamic = "force-dynamic";
 
@@ -43,10 +47,11 @@ export async function GET(req: Request) {
   cookies().set({ name: "g_oauth_state", value: "", path: "/", maxAge: 0 });
   if (!stateCookie || stateCookie !== state) return fail("state_mismatch");
 
-  // Decode flow from the state ("signin:..." | "onboarding:...")
-  const flow = state.split(":", 1)[0] === "onboarding" ? "onboarding" : "signin";
+  // Decode flow from the state ("signin:..." | "onboarding:..." | "desktop:...")
+  const flowTag = state.split(":", 1)[0];
+  const flow = flowTag === "onboarding" ? "onboarding" : flowTag === "desktop" ? "desktop" : "signin";
 
-  const user = await exchangeCodeForUserInfo(code);
+  const user = await exchangeCodeForUserInfo(code, state);
   if (!user || !user.email) return fail("google_exchange_failed", flow === "onboarding" ? "onboarding" : "login");
   if (user.email_verified === false) return fail("email_unverified", flow === "onboarding" ? "onboarding" : "login");
 
@@ -68,13 +73,14 @@ export async function GET(req: Request) {
   }
 
   // ─── signin flow ────────────────────────────────────────────────────
-  const res = await query<{ user_phone: string }>(
-    `SELECT user_phone FROM google_tokens WHERE LOWER(google_email) = $1 LIMIT 1`,
-    [email]
-  );
-  if (res.rows.length === 0) return fail("not_connected", "login");
-
-  const userPhone = res.rows[0].user_phone;
+  // Register any verified Google user. Existing WhatsApp-linked accounts are
+  // resolved to their current phone key so their data remains continuous.
+  const userPhone = await resolveGoogleIdentity({
+    sub: user.sub,
+    email,
+    name: user.name,
+    picture: user.picture,
+  });
 
   // Capture the Google profile name so the sidebar / greeting can show
   // "Welcome back, Danish" instead of an email-derived stub. Lazy
@@ -88,6 +94,11 @@ export async function GET(req: Request) {
         [user.name.slice(0, 120), userPhone]
       );
     } catch { /* ignore */ }
+  }
+
+  if (flow === "desktop") {
+    const desktopTicket = await createDesktopAuthTicket(userPhone);
+    return NextResponse.redirect(`${BASE}/auth/desktop#ticket=${encodeURIComponent(desktopTicket)}`, 303);
   }
 
   const token = await createSession(userPhone);

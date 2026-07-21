@@ -32,6 +32,11 @@ const migrationNames = [
   '26_remove_retired_meeting_provider_tables',
   '27_team_task_ownership',
   '28_meeting_task_links',
+  '29_versioned_agent_memory',
+  '30_persistent_local_user_files',
+  '31_standup_timezone',
+  '32_provider_neutral_agent_summaries',
+  '33_google_login_identities',
 ].filter((name) => fs.existsSync(path.join(repoRoot, 'migrations', `${name}.js`)));
 const migrationGlob = migrationNames.join(',');
 

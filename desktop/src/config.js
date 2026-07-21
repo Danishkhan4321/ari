@@ -26,7 +26,9 @@ function buildRuntimeConfig({ repoRoot, env }) {
     : '/chat';
   const dashboardEntryUrl = `${dashboardUrl}${dashboardEntryPath}`;
   const desktopPhone = firstAdminPhone(env.ARI_DESKTOP_USER_PHONE) || firstAdminPhone(env.ADMIN_PHONES);
-  const bypassAuth = env.ARI_DESKTOP_AUTH_BYPASS !== 'false' && Boolean(desktopPhone);
+  // Public builds must always show real authentication. The phone bypass is
+  // now an explicit local-QA opt-in instead of being enabled by ADMIN_PHONES.
+  const bypassAuth = env.ARI_DESKTOP_AUTH_BYPASS === 'true' && Boolean(desktopPhone);
   const useDemoDatabase = env.ARI_DESKTOP_USE_DEMO_DB === 'true';
   const captureDirectory = env.ARI_DESKTOP_CAPTURE_DIR
     ? path.resolve(env.ARI_DESKTOP_CAPTURE_DIR)

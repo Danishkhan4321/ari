@@ -27,6 +27,12 @@
   "build": {
     "appId": "com.ari.desktop",
     "productName": "Ari",
+    "protocols": [
+      {
+        "name": "Ari sign-in",
+        "schemes": ["ari"]
+      }
+    ],
     "asar": true,
     "asarUnpack": [
       "node_modules/active-win/**/*",

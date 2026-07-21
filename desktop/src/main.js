@@ -12,6 +12,7 @@ const { registerMeetingIpc } = require('./meeting-capture/ipc');
 const { createDictationBackendClient } = require('./dictation/backend-client');
 const { createDictationController } = require('./dictation/controller');
 const { loadOrCreateInternalToken, removeInternalToken } = require('./internal-token');
+const { exchangeDesktopTicket, googleAuthStartUrl, ticketFromCommandLine, ticketFromDeepLink } = require('./desktop-auth');
 
 const repoRoot = process.env.ARI_REPO_ROOT || path.resolve(__dirname, '..', '..');
 const runtime = createRuntimeConfig(repoRoot);
@@ -23,6 +24,8 @@ let dictationController = null;
 let desktopInternalTokenPath = null;
 let quitting = false;
 let launchInProgress = false;
+let pendingAuthTicket = ticketFromCommandLine(process.argv);
+let authExchangeInProgress = false;
 
 function nodeCommand() {
   return process.env.ARI_NODE_BINARY || 'node';
@@ -134,6 +137,38 @@ async function launch() {
   }
 }
 
+async function completeDesktopAuth(ticket) {
+  if (!ticket || authExchangeInProgress) return;
+  authExchangeInProgress = true;
+  try {
+    await exchangeDesktopTicket({
+      dashboardUrl: runtime.dashboardUrl,
+      ticket,
+      cookieStore: session.defaultSession.cookies,
+    });
+    pendingAuthTicket = null;
+    await mainWindow?.loadURL(runtime.dashboardEntryUrl);
+    if (dictationController) dictationController.showMainWindow();
+    else {
+      mainWindow?.show();
+      mainWindow?.focus();
+    }
+  } catch (error) {
+    const logPath = path.join(app.getPath('logs'), 'ari-desktop.log');
+    fs.appendFile(logPath, `${new Date().toISOString()} [Ari auth] ${String(error?.message || error)}\n`, () => {});
+  } finally {
+    authExchangeInProgress = false;
+  }
+}
+
+function acceptAuthDeepLink(rawUrl) {
+  const ticket = ticketFromDeepLink(rawUrl);
+  if (!ticket) return false;
+  pendingAuthTicket = ticket;
+  if (app.isReady() && mainWindow) void completeDesktopAuth(ticket);
+  return true;
+}
+
 async function boot() {
   const logPath = path.join(app.getPath('logs'), 'ari-desktop.log');
   const sessionLogRoot = path.join(app.getPath('logs'), 'sessions');
@@ -202,6 +237,15 @@ async function boot() {
   });
   ipcMain.on('desktop:quit', (event) => {
     if (fromStartupPage(event)) app.quit();
+  });
+  ipcMain.handle('desktop:auth:google', async (event) => {
+    if (!fromLocalDashboard(event)) return { ok: false, error: 'Google sign-in is unavailable outside Ari.' };
+    try {
+      await shell.openExternal(googleAuthStartUrl(runtime.dashboardUrl));
+      return { ok: true };
+    } catch {
+      return { ok: false, error: 'Could not open your browser.' };
+    }
   });
   const meetingSessionManager = createSessionManager({ root: meetingCaptureRoot });
   const meetingBackendClient = runtime.desktopPhone
@@ -288,17 +332,33 @@ async function boot() {
   });
 
   await launch();
+  if (pendingAuthTicket) void completeDesktopAuth(pendingAuthTicket);
   dictationController.start();
   if (process.env.ARI_DESKTOP_SMOKE === 'true') {
     setTimeout(() => app.quit(), 20000);
   }
 }
 
+if (process.defaultApp && process.argv[1]) {
+  app.setAsDefaultProtocolClient('ari', process.execPath, [path.resolve(process.argv[1])]);
+} else {
+  app.setAsDefaultProtocolClient('ari');
+}
+
+app.on('open-url', (event, url) => {
+  if (acceptAuthDeepLink(url)) event.preventDefault();
+});
+
 const singleInstance = app.requestSingleInstanceLock();
 if (!singleInstance) {
   app.quit();
 } else {
-  app.on('second-instance', () => {
+  app.on('second-instance', (_event, commandLine) => {
+    const ticket = ticketFromCommandLine(commandLine);
+    if (ticket) {
+      pendingAuthTicket = ticket;
+      if (mainWindow) void completeDesktopAuth(ticket);
+    }
     if (dictationController) dictationController.showMainWindow();
     else if (mainWindow) mainWindow.focus();
   });
