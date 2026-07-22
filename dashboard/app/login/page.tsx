@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { AriMark } from "@/components/icons";
 import { getCurrentUserPhone } from "@/lib/session";
-import { GoogleSignInButton } from "./google-sign-in-button";
+import { EmailSignInForm } from "./email-sign-in-form";
 
 type SearchParams = { error?: string };
 
@@ -9,8 +9,8 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 const benefits = [
-  "One Composio-managed sign-in for Ari",
-  "Google permissions handled by Composio",
+  "Ari-owned login, no Google redirect setup",
+  "Optional Google app connections after sign-in",
   "Your session stays signed in on this device",
 ];
 
@@ -18,7 +18,6 @@ export default async function Login({ searchParams }: { searchParams: SearchPara
   if (await getCurrentUserPhone()) redirect("/");
 
   const errorMsg = searchParams.error ? friendlyError(searchParams.error) : null;
-  const googleConfigured = Boolean(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET);
 
   return (
     <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#f2f1ec] px-4 py-6 sm:px-8 sm:py-10">
@@ -68,7 +67,7 @@ export default async function Login({ searchParams }: { searchParams: SearchPara
             <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-[#8a837d]">Welcome to Ari</p>
             <h2 className="mt-3 text-[32px] font-semibold leading-tight tracking-[-0.045em] text-[#171717]">Sign in to your workspace</h2>
             <p className="mt-3 text-[14px] leading-6 text-[#706965]">
-              Continue with Composio. It securely handles your Google account connection and sends you back to Ari when access is ready.
+              Use your email to open Ari immediately. Your session stays saved on this device; Google apps can be connected later from Settings.
             </p>
 
             {errorMsg ? (
@@ -79,21 +78,15 @@ export default async function Login({ searchParams }: { searchParams: SearchPara
             ) : null}
 
             <div className="mt-8">
-              {googleConfigured ? (
-                <GoogleSignInButton />
-              ) : (
-                <div className="rounded-xl border border-[#ead0cc] bg-[#fff8f6] p-4 text-[12px] leading-5 text-[#8f342b]">
-                  Composio sign-in is temporarily unavailable. Ask the Ari administrator to finish authentication setup.
-                </div>
-              )}
+              <EmailSignInForm />
             </div>
 
             <div className="mt-7 rounded-xl border border-[#e5e2dc] bg-[#faf9f6] p-4">
               <div className="flex items-start gap-3">
                 <span className="mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-white text-[#4d4945] shadow-[0_1px_3px_rgba(38,8,5,0.08)]"><ShieldIcon /></span>
                 <div>
-                  <p className="text-[12px] font-medium text-[#24211f]">Composio authentication</p>
-                  <p className="mt-1 text-[11px] leading-5 text-[#77716c]">Composio manages Google permissions and token refresh without exposing credentials to Ari.</p>
+                  <p className="text-[12px] font-medium text-[#24211f]">Google apps are optional</p>
+                  <p className="mt-1 text-[11px] leading-5 text-[#77716c]">Ari login no longer depends on Google OAuth. If you connect Gmail, Calendar, or Drive later, Composio manages those permissions separately.</p>
                 </div>
               </div>
             </div>
